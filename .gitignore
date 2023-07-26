@@ -1,15 +1,33 @@
+# Ignore Gradle files and build output
+.gradle/
+build/
+/captures/
+.externalNativeBuild/
+.cxx/
+output.json
+
+# Ignore Android Studio generated files and folders
 *.iml
-.gradle
-/local.properties
-/.idea/caches
-/.idea/libraries
-/.idea/modules.xml
-/.idea/workspace.xml
-/.idea/navEditor.xml
-/.idea/assetWizardSettings.xml
-.DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
+.idea/
+misc.xml
+deploymentTargetDropDown.xml
+render.experimental.xml
+
+# Ignore local configuration file
 local.properties
+
+# Ignore log files
+*.log
+
+# Ignore macOS-specific files
+.DS_Store
+
+# Ignore Keystore files
+*.jks
+*.keystore
+
+# Ignore Google Services (e.g., APIs or Firebase) file
+google-services.json
+
+# Ignore Android Profiling
+*.hprof
