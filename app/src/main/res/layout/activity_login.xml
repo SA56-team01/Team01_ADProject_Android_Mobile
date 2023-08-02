@@ -1,0 +1,100 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+    <ImageView
+        android:id="@+id/homeImage"
+        android:layout_width="120dp"
+        android:layout_height="100dp"
+        android:contentDescription="homeScreen"
+        android:transitionName="image"
+        android:src="@drawable/home_screen" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/aclonica"
+        android:gravity="left"
+        android:transitionName="text"
+        android:text="WELCOME BACK"
+        android:textColor="#1DB954"
+        android:textSize="30sp"></TextView>
+    <TextView
+        android:id="@+id/sub_titile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/aclonica"
+        android:gravity="left"
+        android:text="Sign in to continue"
+        android:textColor="#AAA9A9"
+        android:textSize="15sp"></TextView>
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="20dp"
+        android:orientation="vertical"
+
+        >
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/username"
+            android:hint="Username"
+            android:layout_margin="8dp"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </com.google.android.material.textfield.TextInputEditText>
+
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/password"
+            android:hint="Password"
+            android:layout_margin="8dp"
+            app:passwordToggleEnabled="true"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+            <com.google.android.material.textfield.TextInputEditText
+                android:inputType="textPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </com.google.android.material.textfield.TextInputEditText>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="FORGET PASSWORD?"
+            android:textColor="#292828"
+            android:backgroundTint="#fff"
+            android:layout_gravity="right"
+            android:layout_margin="8dp"
+            ></Button>
+        <com.google.android.material.button.MaterialButton
+            android:layout_margin="5dp"
+            android:id="@+id/loginBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Login"
+            android:backgroundTint="#00BCD4"
+            style="@style/Widget.Material3.Button.IconButton.Filled">
+        </com.google.android.material.button.MaterialButton>
+        <com.google.android.material.button.MaterialButton
+            android:layout_margin="5dp"
+            android:id="@+id/authSpotify"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Login by Spotify"
+            android:backgroundTint="#1DB954"
+            style="@style/Widget.Material3.Button.IconButton.Filled">
+        </com.google.android.material.button.MaterialButton>
+
+    </LinearLayout>
+
+</LinearLayout>
