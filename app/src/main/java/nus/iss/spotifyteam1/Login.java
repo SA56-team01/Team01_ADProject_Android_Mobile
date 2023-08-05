@@ -55,14 +55,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     public void onClick(View view) {
         int id = view.getId();
         if (id == R.id.authSpotify) {
-//            AuthorizationRequest.Builder builder =
-//                    new AuthorizationRequest.Builder(CLIENT_ID, AuthorizationResponse.Type.TOKEN, REDIRECT_URI);
-//
-//            builder.setScopes(new String[]{"streaming"});
-//            AuthorizationRequest request = builder.build();
-//
-//            AuthorizationClient.openLoginInBrowser(this, request);
-
 
             AuthorizationRequest.Builder builder =
                     new AuthorizationRequest.Builder(CLIENT_ID, AuthorizationResponse.Type.TOKEN, REDIRECT_URI);
@@ -111,40 +103,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         }
     }
 
-//    protected void onNewIntent(Intent intent) {
-//        super.onNewIntent(intent);
-//
-//        Uri uri = intent.getData();
-//        if (uri != null) {
-//            AuthorizationResponse response = AuthorizationResponse.fromUri(uri);
-//            switch (response.getType()) {
-//                // Response was successful and contains auth token
-//                case TOKEN:
-//
-//                    // Handle successful response
-//                   TOKEN =  response.getAccessToken();
-//                    if (bkgdThread != null) {
-//                        bkgdThread.interrupt();
-//                        return;
-//                    }
-//                    bkgdThread = getUserProfile();
-//                    bkgdThread.start();
-//                    Toast.makeText(Login.this, "Verification successful", Toast.LENGTH_SHORT).show();
-//                    Intent toDashboard = new Intent(Login.this, Dashboard.class);
-//                    startActivity(toDashboard);
-//                    break;
-//
-//                // Auth flow returned an error
-//                case ERROR:
-//                    // Handle error response
-//                    break;
-//
-//                // Most likely auth flow was cancelled
-//                default:
-//                    // Handle other cases
-//            }
-//        }
-//    }
 
 
     public Thread getUserProfile() {
@@ -205,6 +163,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         user.getId();
         user.getEmail();
         user.getId();
+
     }
 
 }
