@@ -6,6 +6,7 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.Uri;
@@ -160,10 +161,15 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     private void handleResponseData(String responseData) {
         Gson gson = new Gson();
         User user = gson.fromJson(responseData, User.class);
+        SharedPreferences pref = getSharedPreferences("user_obj", MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString("user_id",user.getId());
+        editor.putString("user_name",user.getDisplayName());
+        editor.putString("user_email",user.getCountry());
+        editor.commit();
         user.getId();
         user.getEmail();
         user.getId();
-
     }
 
 }
