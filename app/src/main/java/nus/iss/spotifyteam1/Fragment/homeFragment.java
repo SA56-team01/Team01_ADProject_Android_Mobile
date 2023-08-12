@@ -68,8 +68,8 @@ public class homeFragment extends Fragment {
         super.onCreate(savedInstanceState);
         playlists.add(new Playlist("Playlist1", 114510, "8.5.2023", R.drawable.playlist_image1));
         playlists.add(new Playlist("Playlist2", 321654, "8.2.2023", R.drawable.playlist_image2));
-        playlists.add(new Playlist("Playlist3", 123456, "28.7.2023", R.drawable.playlist_image3));
-
+        playlists.add(new Playlist("Playlist3", 1234556, "28.7.2023", R.drawable.playlist_image3));
+        //PUSH TEST test
         //在这里用API抓取所有的Playlist，重点是名字、ID和时间，时间在这里用了String的格式，到时候可以更换......
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);

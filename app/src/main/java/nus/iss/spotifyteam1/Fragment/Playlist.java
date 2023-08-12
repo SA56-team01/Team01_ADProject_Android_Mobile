@@ -10,9 +10,10 @@ public class Playlist {
 
     public Playlist(String name, int playlistID, String description, int imageResId) {
         this.name = name;
+        this.imageResId = imageResId;
         this.playlistID = playlistID;
         this.description = description;
-        this.imageResId = imageResId;
+
     }
 
     public String getName() {
