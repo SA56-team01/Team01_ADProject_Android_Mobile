@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 颜色当项目被选中时 -->
+    <item android:color="@color/bottom_nav_selected_color" android:state_checked="true" />
+    <!-- 默认颜色 -->
+    <item android:color="#757575" />
+</selector>
