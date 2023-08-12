@@ -35,7 +35,11 @@ public class MainActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+<<<<<<< HEAD
                 Intent intent = new Intent(MainActivity.this,Login.class);
+=======
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+>>>>>>> d735327 (after integrated)
                 Pair[] pairs = new Pair[2];
                 pairs[0] = new Pair<View, String>(imageView,"image");
                 pairs[1] = new Pair<View, String>(textView,"text");

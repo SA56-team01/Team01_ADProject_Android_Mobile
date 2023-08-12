@@ -2,4 +2,8 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+<<<<<<< HEAD
+=======
+    <color name="bottom_nav_selected_color">#1DB954</color>
+>>>>>>> d735327 (after integrated)
 </resources>
