@@ -15,10 +15,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
-    private static int SPLASH_SCREEN =5000;
+    private static int SPLASH_SCREEN =3000;
     ImageView imageView;
     TextView textView;
     Animation move;
+
+    TextView title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +31,10 @@ public class MainActivity extends AppCompatActivity {
 
         imageView = findViewById(R.id.homeImage);
         textView = findViewById(R.id.myteam);
-        imageView.setAnimation(move);
+        title = findViewById(R.id.title);
+//        imageView.setAnimation(move);
         textView.setAnimation(move);
+        title.setAnimation(move);
 
         new Handler().postDelayed(new Runnable() {
             @Override

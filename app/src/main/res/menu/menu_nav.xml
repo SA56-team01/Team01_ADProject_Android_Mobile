@@ -4,9 +4,7 @@
     <item
         android:id="@+id/item_home"
         android:icon="@drawable/home"
-        android:title="@string/home"
-
-        />
+        android:title="@string/home" />
 
     <item
         android:id="@+id/item_more"
@@ -18,8 +16,6 @@
     <item
         android:id="@+id/item_user"
         android:icon="@drawable/user"
-        android:title="@string/user"
-
-        />
+        android:title="@string/user" />
 
 </menu>

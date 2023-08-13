@@ -27,6 +27,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Generate new playlist"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:backgroundTint="#1DB954"/>
 
 </LinearLayout>
