@@ -35,11 +35,13 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginBottom="100dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
         android:orientation="vertical"
         android:gravity="center"
-
+        android:background="@drawable/rounded_background"
         >
 <!--        <com.google.android.material.textfield.TextInputLayout-->
 <!--            android:layout_width="match_parent"-->
@@ -88,7 +90,7 @@
 <!--            style="@style/Widget.Material3.Button.IconButton.Filled">-->
 <!--        </com.google.android.material.button.MaterialButton>-->
         <com.google.android.material.button.MaterialButton
-            android:layout_margin="5dp"
+            android:layout_margin="20dp"
             android:id="@+id/authSpotify"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

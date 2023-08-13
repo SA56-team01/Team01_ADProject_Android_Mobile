@@ -12,7 +12,20 @@ android:orientation="vertical"
     android:transitionName="image"
     android:layout_weight="1"
     android:src="@drawable/home_screen" />
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="100dp"
+        android:fontFamily="@font/aclonica"
+        android:gravity="center"
+        android:transitionName="text"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:text="Dynamic Generate Playlist"
+        android:textColor="#1DB954"
 
+        android:textSize="38sp"></TextView>
 <TextView
     android:id="@+id/myteam"
     android:layout_width="match_parent"
@@ -22,7 +35,7 @@ android:orientation="vertical"
     android:gravity="center"
     android:transitionName="text"
     android:text="TEAM1"
-    android:textColor="#1DB954"
-    android:textSize="40sp"></TextView>
+    android:textColor="#AAA9A9"
+    android:textSize="20sp"></TextView>
 
 </LinearLayout>
