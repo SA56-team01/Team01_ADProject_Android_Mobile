@@ -2,6 +2,7 @@
     <string name="app_name">SpotifyTeam1</string>
     <string name="user">User</string>
     <string name="more">More</string>
+    <string name="feedback">Feedback</string>
     <string name="home">Home</string>
     <string name="gmap_key">AIzaSyDOEEx41PoSuZ7MGUgi05of-s8ho_OB5QI</string>
 </resources>
