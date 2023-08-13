@@ -25,6 +25,10 @@ public class MusicActivity extends AppCompatActivity {
     private BottomNavigationView navigationView;
     private ViewPager viewPager;
     private List<Musiclist> musiclists = new ArrayList<>();
+    private String playlistName;
+    private String playlistDescription;
+    private int playlistId;
+
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -39,10 +43,37 @@ public class MusicActivity extends AppCompatActivity {
         musiclists.add(new Musiclist("Music3", "28.7.2023", R.drawable.playlist_image3));
 
 
+        //设置playlist介绍
+        if (getIntent() != null) {
+            playlistName = getIntent().getStringExtra("name");
+            playlistDescription = getIntent().getStringExtra("description");
+            playlistId = getIntent().getIntExtra("playlistId", -1);
+        }
 
+        TextView nameTextView = findViewById(R.id.playlistNameTextView);  // Assuming you have a TextView with this ID for the name
+        nameTextView.setText(playlistName);
+
+        TextView descriptionTextView = findViewById(R.id.playlistDescriptionTextView);  // Similarly, a TextView for the description
+        descriptionTextView.setText(playlistDescription);
+
+        ImageView imageView = findViewById(R.id.albumCoverImageView);
+        imageView.setImageResource(R.drawable.playlist_image3);
+
+
+
+        //设置下面的playlist
         listView = findViewById(R.id.musiclistListView);
         MusiclistAdapter adapter = new MusiclistAdapter(musiclists);
         listView.setAdapter(adapter);
+
+        //返回键
+        ImageView backImageView = findViewById(R.id.backImageView);
+        backImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();  // This will close the current activity and return to the previous one
+            }
+        });
 
 
     }

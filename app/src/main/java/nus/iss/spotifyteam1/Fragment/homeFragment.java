@@ -105,7 +105,7 @@ public class homeFragment extends Fragment {
                 Intent intent = new Intent(getContext(), MusicActivity.class);
                 intent.putExtra("name", clickedPlaylist.getName());
                 intent.putExtra("description", clickedPlaylist.getDescription());
-                intent.putExtra("imageResId", clickedPlaylist.getImageResId());
+                intent.putExtra("playlistId", clickedPlaylist.getPlaylistID());
 
                 startActivity(intent);
             }

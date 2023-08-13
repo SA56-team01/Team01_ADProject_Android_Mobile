@@ -20,6 +20,14 @@ public class Playlist {
         return name;
     }
 
+    public int getPlaylistID() {
+        return playlistID;
+    }
+
+    public void setPlaylistID(int playlistID) {
+        this.playlistID = playlistID;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
