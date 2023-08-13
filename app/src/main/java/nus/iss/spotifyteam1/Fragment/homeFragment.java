@@ -1,10 +1,12 @@
 package nus.iss.spotifyteam1.Fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -15,6 +17,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
+import nus.iss.spotifyteam1.MusicActivity;
 import nus.iss.spotifyteam1.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -33,7 +36,9 @@ public class homeFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private ListView listView;
+
     private BottomNavigationView navigationView;
+
     private ViewPager viewPager;
     private List<Playlist> playlists = new ArrayList<>();
 
@@ -89,6 +94,24 @@ public class homeFragment extends Fragment {
         listView = view.findViewById(R.id.playlistListView);
         PlaylistAdapter adapter = new PlaylistAdapter(getContext(),playlists);
         listView.setAdapter(adapter);
+
+
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Playlist clickedPlaylist = playlists.get(position);
+
+                Intent intent = new Intent(getContext(), MusicActivity.class);
+                intent.putExtra("name", clickedPlaylist.getName());
+                intent.putExtra("description", clickedPlaylist.getDescription());
+                intent.putExtra("imageResId", clickedPlaylist.getImageResId());
+
+                startActivity(intent);
+            }
+        });
+
+
 
         return view;
         //listView = listView.findViewById(R.id.playlistListView);
