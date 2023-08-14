@@ -112,8 +112,8 @@ public class GeoJsonDemoActivity extends AppCompatActivity implements OnMapReady
             public boolean onMarkerClick(Marker marker) {
                 Toast.makeText(getApplicationContext(), "New location: "  +latitude+" , "+longitude, Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent("manual_location");
-                intent.putExtra("latitude", marker.getPosition().latitude);
-                intent.putExtra("longitude", marker.getPosition().longitude);
+                intent.putExtra("latitude", Double.toString(marker.getPosition().latitude));
+                intent.putExtra("longitude",Double.toString(marker.getPosition().longitude));
                 // Send the broadcast
                 sendBroadcast(intent);
                 return false;

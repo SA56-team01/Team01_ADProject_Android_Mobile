@@ -222,11 +222,12 @@ public class HomepageActivity extends AppCompatActivity implements View.OnClickL
          if (action.equals("com.spotify.music.metadatachanged")) {
                 trackId = intent.getStringExtra("id");
                 getLocation();
-
             }
          if(action.equals("manual_location")){
-             latitude = (float)intent.getDoubleExtra("latitude",0);
-             longitude = (float)intent.getDoubleExtra("longitude",0);
+             String lat = intent.getStringExtra("latitude");
+             String lon = intent.getStringExtra("longitude");
+             latitude = Double. valueOf(lat);
+             longitude = Double.valueOf(lon);
              isManualLocation = true;
          }
         }
