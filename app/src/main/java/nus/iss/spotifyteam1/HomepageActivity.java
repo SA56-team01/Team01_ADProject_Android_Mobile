@@ -60,6 +60,8 @@ public class HomepageActivity extends AppCompatActivity implements View.OnClickL
     String dataString;
     String trackId;
 
+    boolean isManualLocation = false;
+
     //从这里为止是原来Dashboard的部分
 
     @Override
@@ -79,6 +81,7 @@ public class HomepageActivity extends AppCompatActivity implements View.OnClickL
         IntentFilter filter = new IntentFilter();
 //        filter.addAction("com.spotify.music.active");
         filter.addAction("com.spotify.music.metadatachanged");
+        filter.addAction("manual_location");
         registerReceiver(bcr, filter);
         btn = findViewById(R.id.toMap);
         btn.setOnClickListener(this);
@@ -158,8 +161,10 @@ public class HomepageActivity extends AppCompatActivity implements View.OnClickL
         @Override
         public void onLocationChanged(android.location.Location location) {
 
-            latitude = location.getLatitude();
-            longitude = location.getLongitude();
+            if(!isManualLocation){
+                latitude = location.getLatitude();
+                longitude = location.getLongitude();
+            }
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date date = new Date();
             dataString = formatter.format(date);
@@ -179,7 +184,7 @@ public class HomepageActivity extends AppCompatActivity implements View.OnClickL
             public void run() {
                 HttpURLConnection connection = null;
                 try {
-                    URL url = new URL(BASE_URL + "v1/me");
+                    URL url = new URL(BASE_URL + "url");
 //                    ?userId=123344&latitude=2232.33
                     connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod("POST");
@@ -219,6 +224,11 @@ public class HomepageActivity extends AppCompatActivity implements View.OnClickL
                 getLocation();
 
             }
+         if(action.equals("manual_location")){
+             latitude = (float)intent.getDoubleExtra("latitude",0);
+             longitude = (float)intent.getDoubleExtra("longitude",0);
+             isManualLocation = true;
+         }
         }
     };
 

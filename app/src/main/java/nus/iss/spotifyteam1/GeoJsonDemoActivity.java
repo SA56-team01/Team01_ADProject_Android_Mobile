@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -29,7 +30,7 @@ public class GeoJsonDemoActivity extends AppCompatActivity implements OnMapReady
 //    GoogleMap.OnMyLocationButtonClickListener,
 //    GoogleMap.OnMyLocationClickListener, ActivityCompat.OnRequestPermissionsResultCallback
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
-
+    private LatLng originalMarkerPosition;
     float latitude;
     float longitude;
     String time;
@@ -73,7 +74,9 @@ public class GeoJsonDemoActivity extends AppCompatActivity implements OnMapReady
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         map = googleMap;
-        LatLng local = new LatLng(latitude, longitude);
+//        LatLng local = new LatLng(latitude, longitude);
+        LatLng singapore = new LatLng(1.35, 103.87); // Coordinates for Singapore
+
         addMarker();
         map.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
             @Override
@@ -83,25 +86,41 @@ public class GeoJsonDemoActivity extends AppCompatActivity implements OnMapReady
 
             @Override
             public void onMarkerDragEnd(@NonNull Marker marker) {
+                LatLng newPosition = marker.getPosition();
+                if (isPositionInsideSingapore(newPosition)) {
+                    // Reset the marker's position to a valid point in Singapore
+//                    marker.setPosition(getNearestPointInSingapore(newPosition));
+                    latitude = (float) newPosition.latitude;
+                    longitude = (float) newPosition.longitude;
+
+                }
+                else {
+                    Toast.makeText(GeoJsonDemoActivity.this,"Singapore Only",Toast.LENGTH_LONG);
+                    marker.setPosition(originalMarkerPosition);
+
+                }
 
             }
 
             @Override
             public void onMarkerDragStart(@NonNull Marker marker) {
-                LatLng newPosition = marker.getPosition();
-                latitude = (float) newPosition.latitude;
-                longitude = (float) newPosition.longitude;
+                originalMarkerPosition = marker.getPosition();
             }
         });
         map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
                 Toast.makeText(getApplicationContext(), "New location: "  +latitude+" , "+longitude, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent("manual_location");
+                intent.putExtra("latitude", marker.getPosition().latitude);
+                intent.putExtra("longitude", marker.getPosition().longitude);
+                // Send the broadcast
+                sendBroadcast(intent);
                 return false;
             }
         });
         CameraPosition cameraPosition = new CameraPosition.Builder()
-                .target(local)
+                .target(singapore)
                 .zoom(17)    // Sets the center of the map to Mountain View
                 .build();                   // Creates a CameraPosition from the builder
         map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
@@ -119,12 +138,29 @@ public class GeoJsonDemoActivity extends AppCompatActivity implements OnMapReady
         }
 
     }
+    private boolean isPositionInsideSingapore(LatLng position) {
+        double minLat = 1.15;
+        double maxLat = 1.47;
+        double minLng = 103.59;
+        double maxLng = 104.05;
 
+        double lat = position.latitude;
+        double lng = position.longitude;
+
+        return lat >= minLat && lat <= maxLat && lng >= minLng && lng <= maxLng;
+    }
+
+    private LatLng getNearestPointInSingapore(LatLng position) {
+        double lat = Math.max(1.15, Math.min(1.47, position.latitude));
+        double lng = Math.max(103.59, Math.min(104.05, position.longitude));
+        return new LatLng(lat, lng);
+    }
 
     void enableLocation(){
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
+
         map.setMyLocationEnabled(true);
         map.setOnMyLocationButtonClickListener(this);
         map.setOnMyLocationClickListener(this);
