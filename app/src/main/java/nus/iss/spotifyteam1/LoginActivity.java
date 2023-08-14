@@ -79,6 +79,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     Toast.makeText(LoginActivity.this, "Verification successful", Toast.LENGTH_SHORT).show();
                     Intent toDashboard = new Intent(LoginActivity.this, HomepageActivity.class);
                     startActivity(toDashboard);
+                    finish();
                     break;
 
                 // Auth flow returned an error
