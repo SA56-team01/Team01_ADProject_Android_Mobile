@@ -15,9 +15,12 @@ import com.spotify.sdk.android.auth.AuthorizationClient;
 import com.spotify.sdk.android.auth.AuthorizationRequest;
 import com.spotify.sdk.android.auth.AuthorizationResponse;
 
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -49,7 +52,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             AuthorizationRequest.Builder builder =
                     new AuthorizationRequest.Builder(CLIENT_ID, AuthorizationResponse.Type.TOKEN, REDIRECT_URI);
 
-            builder.setScopes(new String[]{"streaming"});
+            builder.setScopes(new String[]{"streaming","playlist-modify-public"});
             AuthorizationRequest request = builder.build();
 
             AuthorizationClient.openLoginActivity(this, REQUEST_CODE, request);
@@ -107,7 +110,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         connection.setRequestMethod("GET");
                         connection.setRequestProperty("Authorization", "Bearer " + TOKEN);
                         connection.setRequestProperty("Content-Type", "application/json"); // Set content type if needed
-
                         int responseCode = connection.getResponseCode();
                         if (responseCode == HttpURLConnection.HTTP_OK) {
                             reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));

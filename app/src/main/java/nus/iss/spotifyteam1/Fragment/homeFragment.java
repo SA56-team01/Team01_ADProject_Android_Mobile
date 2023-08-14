@@ -32,9 +32,12 @@ import com.spotify.sdk.android.auth.AuthorizationClient;
 import com.spotify.sdk.android.auth.AuthorizationRequest;
 import com.spotify.sdk.android.auth.AuthorizationResponse;
 
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -61,6 +64,8 @@ public class homeFragment extends Fragment implements View.OnClickListener{
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    String userid;
 
     private static final String BASE_URL = "https://api.spotify.com/";
 
@@ -138,7 +143,7 @@ public class homeFragment extends Fragment implements View.OnClickListener{
         if (id == R.id.generateButton) {
             SharedPreferences pref = requireActivity().getSharedPreferences("user_obj", Context.MODE_PRIVATE);
             TOKEN = pref.getString("user_TOKEN", "");
-            Toast.makeText(getContext(),  TOKEN, Toast.LENGTH_SHORT).show();//for test
+            userid = pref.getString("user_id","");
             bkgdThread = generatePlaylist();
             bkgdThread.start();
         }
@@ -154,37 +159,28 @@ public class homeFragment extends Fragment implements View.OnClickListener{
                     HttpURLConnection connection = null;
                     BufferedReader reader = null;
                     try {
-                        URL url = new URL(BASE_URL + "v1/recommendations?limit=20&market=SG&seed_artists=4NHQUGzhtTLFvgF5SZesLK&seed_tracks=0c6xIDDpzE81m2q797ordA");
+                        URL url = new URL(BASE_URL + "v1/users/"+userid+"/playlists");
                         connection = (HttpURLConnection) url.openConnection();
-                        connection.setRequestMethod("GET");
+                        connection.setRequestMethod("POST");
                         connection.setRequestProperty("Authorization", "Bearer " + TOKEN);
                         connection.setRequestProperty("Content-Type", "application/json"); // Set content type if needed
+                        JSONObject jsonInput = new JSONObject();
+                        jsonInput.put("name", "mynewList");
+                        jsonInput.put("description", "dynamic generated from Team1 ");
+                        jsonInput.put("public", true);
+                        try (OutputStream os = connection.getOutputStream()) {
+                            byte[] input = jsonInput.toString().getBytes("utf-8");
+                            os.write(input, 0, input.length);
+                        }
 
                         int responseCode = connection.getResponseCode();
-
-                        if (responseCode == HttpURLConnection.HTTP_OK) {
-                            reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                            StringBuilder response = new StringBuilder();
-                            String line;
-                            while ((line = reader.readLine()) != null) {
-                                response.append(line);
-                            }
-                            if(response.toString()!=null){
-                                handleResponseData(response.toString());
-                            }
-
+                        if (responseCode == HttpURLConnection.HTTP_CREATED) {
+                            Toast.makeText(getContext(),  "Generated", Toast.LENGTH_LONG).show();//for test
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
 
                     } finally {
-                        if (reader != null) {
-                            try {
-                                reader.close();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
                         if (connection != null) {
                             connection.disconnect();
                         }

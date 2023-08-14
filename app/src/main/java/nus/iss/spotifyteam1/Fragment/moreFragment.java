@@ -14,12 +14,15 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.entity.StringEntity;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -75,10 +78,15 @@ public class moreFragment extends Fragment {
                     URL url = new URL(BASE_URL + "v1/me");
                     connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod("POST");
-                    connection.setRequestProperty("Content-Type", "application/json"); // Set content type if needed
+                    connection.setRequestProperty("Content-Type", "application/json"); // Set content type
+                    connection.setDoOutput(true);
                     JSONObject jsonInput = new JSONObject();
                     jsonInput.put("userid", userId);
                     jsonInput.put("message", msg);
+                    try (OutputStream os = connection.getOutputStream()) {
+                        byte[] input = jsonInput.toString().getBytes("utf-8");
+                        os.write(input, 0, input.length);
+                    }
                     int responseCode = connection.getResponseCode();
                     if (responseCode == HttpURLConnection.HTTP_OK) {
 
