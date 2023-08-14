@@ -55,7 +55,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             AuthorizationClient.openLoginActivity(this, REQUEST_CODE, request);
 
         }
-
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
@@ -93,8 +92,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
         }
     }
-
-
 
     public Thread getUserProfile() {
         return new Thread(new Runnable() {
@@ -156,6 +153,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         editor.putString("user_id",user.getId());
         editor.putString("user_name",user.getDisplayName());
         editor.putString("user_email",user.getCountry());
+        editor.putString("user_TOKEN",TOKEN);
         editor.commit();
         user.getId();
         user.getEmail();

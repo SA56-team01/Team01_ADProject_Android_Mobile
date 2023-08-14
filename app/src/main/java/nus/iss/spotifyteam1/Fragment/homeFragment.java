@@ -2,25 +2,41 @@ package nus.iss.spotifyteam1.Fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
+import nus.iss.spotifyteam1.HomepageActivity;
+import nus.iss.spotifyteam1.LoginActivity;
 import nus.iss.spotifyteam1.MusicActivity;
 import nus.iss.spotifyteam1.R;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import nus.iss.spotifyteam1.User;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.gson.Gson;
+import com.spotify.sdk.android.auth.AuthorizationClient;
+import com.spotify.sdk.android.auth.AuthorizationRequest;
+import com.spotify.sdk.android.auth.AuthorizationResponse;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +45,7 @@ import java.util.List;
  * Use the {@link homeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class homeFragment extends Fragment {
+public class homeFragment extends Fragment implements View.OnClickListener{
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -46,19 +62,18 @@ public class homeFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    private static final String BASE_URL = "https://api.spotify.com/";
+
+    Button generateButton;
+
+    Thread bkgdThread;
+
+    String TOKEN;
+
     public homeFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment homeFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static homeFragment newInstance(String param1, String param2) {
         homeFragment fragment = new homeFragment();
         Bundle args = new Bundle();
@@ -81,7 +96,6 @@ public class homeFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-
     }
 
     @Override
@@ -89,14 +103,11 @@ public class homeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         listView = view.findViewById(R.id.playlistListView);
         PlaylistAdapter adapter = new PlaylistAdapter(getContext(),playlists);
         listView.setAdapter(adapter);
-
-
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -112,7 +123,8 @@ public class homeFragment extends Fragment {
             }
         });
 
-
+        generateButton = view.findViewById(R.id.generateButton);
+        generateButton.setOnClickListener(this);
 
         return view;
         //listView = listView.findViewById(R.id.playlistListView);
@@ -120,6 +132,89 @@ public class homeFragment extends Fragment {
         //listView.setAdapter(adapter);
         //return inflater.inflate(R.layout.fragment_home, container, false);
     }
+
+    public void onClick(View view) {
+        int id = view.getId();
+        if (id == R.id.generateButton) {
+            SharedPreferences pref = requireActivity().getSharedPreferences("user_obj", Context.MODE_PRIVATE);
+            TOKEN = pref.getString("user_TOKEN", "");
+            Toast.makeText(getContext(),  TOKEN, Toast.LENGTH_SHORT).show();//for test
+            bkgdThread = generatePlaylist();
+            bkgdThread.start();
+        }
+    }
+
+
+    public Thread generatePlaylist() {
+
+        return new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    HttpURLConnection connection = null;
+                    BufferedReader reader = null;
+                    try {
+                        URL url = new URL(BASE_URL + "v1/recommendations?limit=20&market=SG&seed_artists=4NHQUGzhtTLFvgF5SZesLK&seed_tracks=0c6xIDDpzE81m2q797ordA");
+                        connection = (HttpURLConnection) url.openConnection();
+                        connection.setRequestMethod("GET");
+                        connection.setRequestProperty("Authorization", "Bearer " + TOKEN);
+                        connection.setRequestProperty("Content-Type", "application/json"); // Set content type if needed
+
+                        int responseCode = connection.getResponseCode();
+
+                        if (responseCode == HttpURLConnection.HTTP_OK) {
+                            reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                            StringBuilder response = new StringBuilder();
+                            String line;
+                            while ((line = reader.readLine()) != null) {
+                                response.append(line);
+                            }
+                            if(response.toString()!=null){
+                                handleResponseData(response.toString());
+                            }
+
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+
+                    } finally {
+                        if (reader != null) {
+                            try {
+                                reader.close();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        if (connection != null) {
+                            connection.disconnect();
+                        }
+                    };
+                    bkgdThread = null;
+                }catch (Exception e){
+                    bkgdThread= null;
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+
+    private void handleResponseData(String responseData) {
+        /*
+        Gson gson = new Gson();
+        User user = gson.fromJson(responseData, User.class);
+        SharedPreferences pref = getSharedPreferences("user_obj", MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString("user_id",user.getId());
+        editor.putString("user_name",user.getDisplayName());
+        editor.putString("user_email",user.getCountry());
+        editor.commit();
+        user.getId();
+        user.getEmail();
+        user.getId();
+         */
+    }
+
     private class PlaylistAdapter extends ArrayAdapter<Playlist> {
         public PlaylistAdapter(Context context, List<Playlist> playlists) {
             super(context, 0, playlists);
@@ -147,4 +242,5 @@ public class homeFragment extends Fragment {
             return convertView;
         }
     }
+
 }
