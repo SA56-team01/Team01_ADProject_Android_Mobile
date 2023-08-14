@@ -160,7 +160,7 @@ public class HomepageActivity extends AppCompatActivity implements View.OnClickL
 
             latitude = location.getLatitude();
             longitude = location.getLongitude();
-            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date date = new Date();
             dataString = formatter.format(date);
             bkgdThread = saveLocation();
@@ -180,14 +180,18 @@ public class HomepageActivity extends AppCompatActivity implements View.OnClickL
                 HttpURLConnection connection = null;
                 try {
                     URL url = new URL(BASE_URL + "v1/me");
+//                    ?userId=123344&latitude=2232.33
                     connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod("POST");
                     connection.setRequestProperty("Content-Type", "application/json"); // Set content type if needed
                     JSONObject jsonInput = new JSONObject();
+                    String[] track = trackId.split(":",3);
+                    trackId = track[2];
                     jsonInput.put("userid", user.getId());
+                    jsonInput.put("trackid", trackId);
                     jsonInput.put("latitude", latitude);
                     jsonInput.put("longitude", longitude);
-                    jsonInput.put("timestemp",dataString);
+                    jsonInput.put("timestamp",dataString);
                     int responseCode = connection.getResponseCode();
                     if (responseCode == HttpURLConnection.HTTP_OK) {
 
