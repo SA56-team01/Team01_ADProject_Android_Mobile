@@ -51,6 +51,7 @@ public class homeFragment extends Fragment implements View.OnClickListener{
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    String userId;
     private ListView listView;
 
     private BottomNavigationView navigationView;
@@ -138,7 +139,8 @@ public class homeFragment extends Fragment implements View.OnClickListener{
         if (id == R.id.generateButton) {
             SharedPreferences pref = requireActivity().getSharedPreferences("user_obj", Context.MODE_PRIVATE);
             TOKEN = pref.getString("user_TOKEN", "");
-            Toast.makeText(getContext(),  TOKEN, Toast.LENGTH_SHORT).show();//for test
+            userId = pref.getString("user_id", "");
+            Toast.makeText(getContext(),  "test", Toast.LENGTH_SHORT).show();//for test
             bkgdThread = generatePlaylist();
             bkgdThread.start();
         }
@@ -154,9 +156,9 @@ public class homeFragment extends Fragment implements View.OnClickListener{
                     HttpURLConnection connection = null;
                     BufferedReader reader = null;
                     try {
-                        URL url = new URL(BASE_URL + "v1/recommendations?limit=20&market=SG&seed_artists=4NHQUGzhtTLFvgF5SZesLK&seed_tracks=0c6xIDDpzE81m2q797ordA");
+                        URL url = new URL(BASE_URL + "v1/users/"+ userId +"/playlists");
                         connection = (HttpURLConnection) url.openConnection();
-                        connection.setRequestMethod("GET");
+                        connection.setRequestMethod("POST");
                         connection.setRequestProperty("Authorization", "Bearer " + TOKEN);
                         connection.setRequestProperty("Content-Type", "application/json"); // Set content type if needed
 
