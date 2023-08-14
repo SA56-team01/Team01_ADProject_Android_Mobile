@@ -30,7 +30,7 @@ public class moreFragment extends Fragment {
     Button submit;
     EditText message;
     Thread bkgdThread;
-    private static final String BASE_URL = "localhost:8080/";
+    private static final String BASE_URL = "localhost:8080/" ;
 
 
     @Override
