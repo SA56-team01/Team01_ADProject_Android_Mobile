@@ -54,6 +54,7 @@ public class homeFragment extends Fragment implements View.OnClickListener{
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    String userId;
     private ListView listView;
 
     private BottomNavigationView navigationView;
@@ -144,6 +145,7 @@ public class homeFragment extends Fragment implements View.OnClickListener{
             SharedPreferences pref = requireActivity().getSharedPreferences("user_obj", Context.MODE_PRIVATE);
             TOKEN = pref.getString("user_TOKEN", "");
             userid = pref.getString("user_id","");
+
             bkgdThread = generatePlaylist();
             bkgdThread.start();
         }
@@ -160,6 +162,7 @@ public class homeFragment extends Fragment implements View.OnClickListener{
                     BufferedReader reader = null;
                     try {
                         URL url = new URL(BASE_URL + "v1/users/"+userid+"/playlists");
+
                         connection = (HttpURLConnection) url.openConnection();
                         connection.setRequestMethod("POST");
                         connection.setRequestProperty("Authorization", "Bearer " + TOKEN);
