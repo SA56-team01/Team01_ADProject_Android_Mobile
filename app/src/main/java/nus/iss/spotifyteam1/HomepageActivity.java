@@ -29,6 +29,13 @@ import nus.iss.spotifyteam1.Fragment.moreFragment;
 import nus.iss.spotifyteam1.Fragment.userFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -38,6 +45,9 @@ public class HomepageActivity extends AppCompatActivity implements View.OnClickL
     private BottomNavigationView navigationView;
     private ViewPager viewPager;
 
+    Thread bkgdThread;
+    private static final String BASE_URL = "localhost:8080/";
+
     //从这里开始是原来Dashboard的部分
     String[] loction = {Manifest.permission.ACCESS_FINE_LOCATION};
     User user = new User();
@@ -45,6 +55,11 @@ public class HomepageActivity extends AppCompatActivity implements View.OnClickL
     LocationManager locationManager;
     Context mContext;
     Button btn;
+    double latitude;
+    double longitude;
+    String dataString;
+    String trackId;
+
     //从这里为止是原来Dashboard的部分
 
     @Override
@@ -62,7 +77,8 @@ public class HomepageActivity extends AppCompatActivity implements View.OnClickL
         locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
         getLocation();
         IntentFilter filter = new IntentFilter();
-        filter.addAction("com.spotify.music.active");
+//        filter.addAction("com.spotify.music.active");
+        filter.addAction("com.spotify.music.metadatachanged");
         registerReceiver(bcr, filter);
         btn = findViewById(R.id.toMap);
         btn.setOnClickListener(this);
@@ -142,14 +158,12 @@ public class HomepageActivity extends AppCompatActivity implements View.OnClickL
         @Override
         public void onLocationChanged(android.location.Location location) {
 
-            double latitude = location.getLatitude();
-            double longitude = location.getLongitude();
+            latitude = location.getLatitude();
+            longitude = location.getLongitude();
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
             Date date = new Date();
-            String dataString = formatter.format(date);
-            String msg = "New Latitude: " + latitude + "New Longitude: " + longitude + "Data: "+ dataString;
-            Toast.makeText(mContext, msg, Toast.LENGTH_LONG).show();
-
+            dataString = formatter.format(date);
+            bkgdThread = saveLocation();
             SharedPreferences pref = getSharedPreferences("location", MODE_PRIVATE);
             SharedPreferences.Editor editor = pref.edit();
             editor.putFloat("Latitude",(float)latitude);
@@ -159,12 +173,47 @@ public class HomepageActivity extends AppCompatActivity implements View.OnClickL
         }
     };
 
+    public Thread saveLocation(){
+        return new Thread(new Runnable() {
+            @Override
+            public void run() {
+                HttpURLConnection connection = null;
+                try {
+                    URL url = new URL(BASE_URL + "v1/me");
+                    connection = (HttpURLConnection) url.openConnection();
+                    connection.setRequestMethod("POST");
+                    connection.setRequestProperty("Content-Type", "application/json"); // Set content type if needed
+                    JSONObject jsonInput = new JSONObject();
+                    jsonInput.put("userid", user.getId());
+                    jsonInput.put("latitude", latitude);
+                    jsonInput.put("longitude", longitude);
+                    jsonInput.put("timestemp",dataString);
+                    int responseCode = connection.getResponseCode();
+                    if (responseCode == HttpURLConnection.HTTP_OK) {
+
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+                bkgdThread = null;
+            }
+
+        });
+
+
+
+    }
+
     protected BroadcastReceiver bcr = new MySpotifyReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            if (action.equals("com.spotify.music.active")) {
+         if (action.equals("com.spotify.music.metadatachanged")) {
+                trackId = intent.getStringExtra("id");
                 getLocation();
+
             }
         }
     };
