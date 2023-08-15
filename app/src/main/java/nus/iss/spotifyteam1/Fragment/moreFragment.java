@@ -76,7 +76,7 @@ public class moreFragment extends Fragment {
                 HttpURLConnection connection = null;
                 BufferedReader reader = null;
                 try {
-                    URL url = new URL(BASE_URL + "v1/me");
+                    URL url = new URL(BASE_URL + "/api/feedback/save");
                     connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod("POST");
                     connection.setRequestProperty("Content-Type", "application/json"); // Set content type
