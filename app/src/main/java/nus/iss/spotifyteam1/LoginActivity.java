@@ -52,7 +52,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             AuthorizationRequest.Builder builder =
                     new AuthorizationRequest.Builder(CLIENT_ID, AuthorizationResponse.Type.TOKEN, REDIRECT_URI);
 
-            builder.setScopes(new String[]{"streaming","playlist-modify-public","user-read-private","user-top-read"});
+            builder.setScopes(new String[]{"streaming","playlist-modify-public","user-read-private","user-top-read","playlist-modify-private","playlist-read-collaborative","playlist-read-private"});
             AuthorizationRequest request = builder.build();
 
             AuthorizationClient.openLoginActivity(this, REQUEST_CODE, request);
