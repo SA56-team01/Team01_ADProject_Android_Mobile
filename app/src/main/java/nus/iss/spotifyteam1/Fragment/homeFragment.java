@@ -57,6 +57,7 @@ public class homeFragment extends Fragment implements View.OnClickListener{
     String userId;
     private ListView listView;
 
+
     private BottomNavigationView navigationView;
 
     private ViewPager viewPager;
@@ -67,6 +68,8 @@ public class homeFragment extends Fragment implements View.OnClickListener{
     private String mParam2;
 
     String userid;
+    String playListId;
+    String[] uris;
 
     private static final String BASE_URL = "https://api.spotify.com/";
 
@@ -150,68 +153,157 @@ public class homeFragment extends Fragment implements View.OnClickListener{
         }
     }
 
+    void topMusic(){
+
+        try {
+            HttpURLConnection connection = null;
+            BufferedReader reader = null;
+            try {
+                URL url = new URL(BASE_URL + "v1/me/top/artists");
+                connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("GET");
+                connection.setRequestProperty("Authorization", "Bearer " + TOKEN);
+                connection.setRequestProperty("Content-Type", "application/json"); // Set content type if needed
+                int responseCode = connection.getResponseCode();
+                if (responseCode == HttpURLConnection.HTTP_OK) {
+                    reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                    StringBuilder response = new StringBuilder();
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        response.append(line);
+                    }
+                    if(response.toString()!=null){
+                        Toast.makeText(getContext(),response.toString(),Toast.LENGTH_LONG);
+                        sendResponseToML(response.toString());
+                    }
+
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+
+            } finally {
+                if (connection != null) {
+                    connection.disconnect();
+                }
+            }
+        }catch (Exception e){
+            bkgdThread= null;
+            e.printStackTrace();
+        }
+    }
+    void sendResponseToML(String res){
+        //Call ML API
+
+    }
+
+    void createEmptyPlayList(){
+        try {
+            HttpURLConnection connection = null;
+            BufferedReader reader = null;
+            try {
+                URL url = new URL(BASE_URL + "v1/users/"+userid+"/playlists");
+
+                connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("POST");
+                connection.setRequestProperty("Authorization", "Bearer " + TOKEN);
+                connection.setRequestProperty("Content-Type", "application/json"); // Set content type if needed
+                JSONObject jsonInput = new JSONObject();
+                jsonInput.put("name", "mynewList789");
+                jsonInput.put("description", "dynamic generated from Team1 ");
+                jsonInput.put("public", true);
+                try (OutputStream os = connection.getOutputStream()) {
+                    byte[] input = jsonInput.toString().getBytes("utf-8");
+                    os.write(input, 0, input.length);
+                }
+
+                int responseCode = connection.getResponseCode();
+                if (responseCode == HttpURLConnection.HTTP_CREATED) {
+                    reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                    StringBuilder response = new StringBuilder();
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        response.append(line);
+                    }
+                    if(response.toString()!=null){
+                       ;
+                        JSONObject jsonObject = new JSONObject(response.toString());
+                        playListId = jsonObject.getString("id");
+                    }
+                    Toast.makeText(getContext(),  "Generated", Toast.LENGTH_LONG).show();//for test
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+
+            } finally {
+                if (connection != null) {
+                    connection.disconnect();
+                }
+            }
+        }catch (Exception e){
+            bkgdThread= null;
+            e.printStackTrace();
+        }
+
+    }
+    void addItemToPlayList(){
+        try {
+            HttpURLConnection connection = null;
+            BufferedReader reader = null;
+            try {
+                URL url = new URL(BASE_URL + "v1/playlists/"+userid+"/tracks");
+
+                connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("POST");
+                connection.setRequestProperty("Authorization", "Bearer " + TOKEN);
+                connection.setRequestProperty("Content-Type", "application/json"); // Set content type if needed
+                JSONObject jsonInput = new JSONObject();
+                jsonInput.put("uris", uris.toString());
+                jsonInput.put("position", 0);
+                try (OutputStream os = connection.getOutputStream()) {
+                    byte[] input = jsonInput.toString().getBytes("utf-8");
+                    os.write(input, 0, input.length);
+                }
+
+                int responseCode = connection.getResponseCode();
+                if (responseCode == HttpURLConnection.HTTP_CREATED) {
+                    Toast.makeText(getContext(),  "Generated", Toast.LENGTH_LONG).show();//for test
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+
+            } finally {
+                if (connection != null) {
+                    connection.disconnect();
+                }
+            }
+        }catch (Exception e){
+            bkgdThread= null;
+            e.printStackTrace();
+        }
+    }
+    void savePlaylistToDB(){
+
+    }
 
     public Thread generatePlaylist() {
+        //call get_top_api from spotify
+        //send response to ML
+        //get response from ML ( 20 music track id)
+        //create empty playlist in Spotify
+        //add item(20 track id) to playlist
+        //Save playlist etc to DB
 
         return new Thread(new Runnable() {
             @Override
             public void run() {
-                try {
-                    HttpURLConnection connection = null;
-                    BufferedReader reader = null;
-                    try {
-                        URL url = new URL(BASE_URL + "v1/users/"+userid+"/playlists");
+                topMusic();
+                createEmptyPlayList();
+                addItemToPlayList();
 
-                        connection = (HttpURLConnection) url.openConnection();
-                        connection.setRequestMethod("POST");
-                        connection.setRequestProperty("Authorization", "Bearer " + TOKEN);
-                        connection.setRequestProperty("Content-Type", "application/json"); // Set content type if needed
-                        JSONObject jsonInput = new JSONObject();
-                        jsonInput.put("name", "mynewList");
-                        jsonInput.put("description", "dynamic generated from Team1 ");
-                        jsonInput.put("public", true);
-                        try (OutputStream os = connection.getOutputStream()) {
-                            byte[] input = jsonInput.toString().getBytes("utf-8");
-                            os.write(input, 0, input.length);
-                        }
-
-                        int responseCode = connection.getResponseCode();
-                        if (responseCode == HttpURLConnection.HTTP_CREATED) {
-                            Toast.makeText(getContext(),  "Generated", Toast.LENGTH_LONG).show();//for test
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
-
-                    } finally {
-                        if (connection != null) {
-                            connection.disconnect();
-                        }
-                    };
-                    bkgdThread = null;
-                }catch (Exception e){
-                    bkgdThread= null;
-                    e.printStackTrace();
-                }
             }
         });
     }
 
-
-    private void handleResponseData(String responseData) {
-        /*
-        Gson gson = new Gson();
-        User user = gson.fromJson(responseData, User.class);
-        SharedPreferences pref = getSharedPreferences("user_obj", MODE_PRIVATE);
-        SharedPreferences.Editor editor = pref.edit();
-        editor.putString("user_id",user.getId());
-        editor.putString("user_name",user.getDisplayName());
-        editor.putString("user_email",user.getCountry());
-        editor.commit();
-        user.getId();
-        user.getEmail();
-        user.getId();
-         */
-    }
 
     private class PlaylistAdapter extends ArrayAdapter<Playlist> {
         public PlaylistAdapter(Context context, List<Playlist> playlists) {
