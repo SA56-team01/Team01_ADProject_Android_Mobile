@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
-import com.google.firebase.crashlytics.buildtools.reloc.org.apache.http.entity.StringEntity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,6 +25,8 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import nus.iss.spotifyteam1.HomepageActivity;
+import nus.iss.spotifyteam1.LoginActivity;
 import nus.iss.spotifyteam1.R;
 
 public class moreFragment extends Fragment {
@@ -104,6 +105,8 @@ public class moreFragment extends Fragment {
 
 
     }
+
+
 
 
 }

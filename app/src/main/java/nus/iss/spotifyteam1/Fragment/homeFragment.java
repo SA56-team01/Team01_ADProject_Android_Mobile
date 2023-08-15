@@ -145,7 +145,6 @@ public class homeFragment extends Fragment implements View.OnClickListener{
             SharedPreferences pref = requireActivity().getSharedPreferences("user_obj", Context.MODE_PRIVATE);
             TOKEN = pref.getString("user_TOKEN", "");
             userid = pref.getString("user_id","");
-
             bkgdThread = generatePlaylist();
             bkgdThread.start();
         }
