@@ -159,7 +159,7 @@ public class homeFragment extends Fragment implements View.OnClickListener{
             HttpURLConnection connection = null;
             BufferedReader reader = null;
             try {
-                URL url = new URL(BASE_URL + "v1/me/top/artists");
+                URL url = new URL(BASE_URL + "v1/me/top/tracks?limit=5");
                 connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("GET");
                 connection.setRequestProperty("Authorization", "Bearer " + TOKEN);
@@ -299,7 +299,6 @@ public class homeFragment extends Fragment implements View.OnClickListener{
                 topMusic();
                 createEmptyPlayList();
                 addItemToPlayList();
-
             }
         });
     }
