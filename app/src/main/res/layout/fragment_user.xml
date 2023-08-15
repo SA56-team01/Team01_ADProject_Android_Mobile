@@ -68,14 +68,15 @@
                     android:drawableLeft="@drawable/starhalf"
                     android:textSize="23dp"
                     ></TextView>
+
                 <TextView
-                    android:layout_marginTop="20dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="   Version"
-                    android:textSize="23dp"
+                    android:layout_marginTop="20dp"
                     android:drawableLeft="@drawable/version"
-                    ></TextView>
+                    android:text="   Version"
+                    android:textSize="23dp"></TextView>
+
                 <TextView
                     android:layout_marginTop="20dp"
                     android:layout_width="wrap_content"
@@ -124,7 +125,7 @@
             </LinearLayout>
 
             <Button
-
+                android:id="@+id/logout"
                 android:layout_marginRight="30dp"
                 android:layout_marginLeft="30dp"
                 android:layout_width="match_parent"
