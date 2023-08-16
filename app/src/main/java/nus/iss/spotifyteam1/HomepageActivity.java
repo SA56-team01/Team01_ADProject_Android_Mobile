@@ -49,7 +49,7 @@ public class HomepageActivity extends AppCompatActivity implements View.OnClickL
     private ViewPager viewPager;
 
     Thread bkgdThread;
-    private static final String BASE_URL = "http://10.249.248.198:8080/api/";
+    private static final String BASE_URL = "http://192.168.0.11:8080/api/";
 
     //从这里开始是原来Dashboard的部分
     String[] loction = {Manifest.permission.ACCESS_FINE_LOCATION};

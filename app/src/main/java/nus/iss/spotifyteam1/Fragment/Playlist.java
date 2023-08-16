@@ -1,6 +1,9 @@
 package nus.iss.spotifyteam1.Fragment;
 
 import java.util.Date;
+import java.util.List;
+
+import nus.iss.spotifyteam1.Musiclist;
 
 public class Playlist {
     private String name;
@@ -8,7 +11,12 @@ public class Playlist {
     private Date timestamp;
     private int imageResId;
 
+
     private int playlistID;
+
+
+
+    private String spotifyPlaylistId;
 
 
     public Playlist(int playlistID) {
@@ -56,6 +64,16 @@ public class Playlist {
     public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
     }
+
+    public String getSpotifyPlaylistId() {
+        return spotifyPlaylistId;
+    }
+
+    public void setSpotifyPlaylistId(String spotifyPlaylistId) {
+        this.spotifyPlaylistId = spotifyPlaylistId;
+    }
+
+
 }
 
 

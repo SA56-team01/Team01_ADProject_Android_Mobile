@@ -3,17 +3,17 @@ package nus.iss.spotifyteam1;
 public class Musiclist {
     private String name;
     private String description;
-    private int imageResId;
 
-    public Musiclist(String name, String description, int imageResId) {
-        this.name = name;
-        this.description = description;
-        this.imageResId = imageResId;
-    }
+    private  String artist;
+    private int imageResId;
+    private String trackID;
+
+    public Musiclist() {}
 
     public String getName() {
         return name;
     }
+
 
     public void setName(String name) {
         this.name = name;
@@ -33,5 +33,21 @@ public class Musiclist {
 
     public void setImageResId(int imageResId) {
         this.imageResId = imageResId;
+    }
+
+    public String getTrackID() {
+        return trackID;
+    }
+
+    public void setTrackID(String trackID) {
+        this.trackID = trackID;
+    }
+
+    public String getArtist() {
+        return artist;
+    }
+
+    public void setArtist(String artist) {
+        this.artist = artist;
     }
 }

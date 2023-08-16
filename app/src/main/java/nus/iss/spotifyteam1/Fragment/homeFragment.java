@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import androidx.viewpager.widget.ViewPager;
 import nus.iss.spotifyteam1.HomepageActivity;
 import nus.iss.spotifyteam1.LoginActivity;
 import nus.iss.spotifyteam1.MusicActivity;
+import nus.iss.spotifyteam1.Musiclist;
 import nus.iss.spotifyteam1.R;
 import nus.iss.spotifyteam1.User;
 
@@ -33,6 +35,7 @@ import com.spotify.sdk.android.auth.AuthorizationRequest;
 import com.spotify.sdk.android.auth.AuthorizationResponse;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -76,17 +79,21 @@ public class homeFragment extends Fragment implements View.OnClickListener{
 
     float lat;
     float longi;
+
+    View view;
     String[] uris;
     String playListStoreToDB;
 
     private static final String BASE_URL = "https://api.spotify.com/";
-    private static  final  String BACKEND_URL = "http://10.249.248.198:8080/api/";
+    private static  final  String BACKEND_URL = "http://192.168.0.11:8080/api/";
 
     Button generateButton;
 
     Thread bkgdThread;
 
     String TOKEN;
+
+    private Handler handler = new Handler();
 
     public homeFragment() {
         // Required empty public constructor
@@ -123,7 +130,7 @@ public class homeFragment extends Fragment implements View.OnClickListener{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        view = inflater.inflate(R.layout.fragment_home, container, false);
 
         listView = view.findViewById(R.id.playlistListView);
         PlaylistAdapter adapter = new PlaylistAdapter(getContext(),playlists);
@@ -138,6 +145,8 @@ public class homeFragment extends Fragment implements View.OnClickListener{
                 intent.putExtra("name", clickedPlaylist.getName());
                 intent.putExtra("description", clickedPlaylist.getDescription());
                 intent.putExtra("playlistId", clickedPlaylist.getPlaylistID());
+                intent.putExtra("timestamp", clickedPlaylist.getTimestamp().toString());
+                intent.putExtra("spotifyPlaylistId",clickedPlaylist.getSpotifyPlaylistId());
 
                 startActivity(intent);
             }
@@ -213,7 +222,7 @@ public class homeFragment extends Fragment implements View.OnClickListener{
             HttpURLConnection connection = null;
             BufferedReader reader = null;
             try {
-                URL url = new URL("http://10.249.248.198:5001/predictTrackAttributes?userId=1&latitude="+lat+"&longitude="+longi+"&time="+dataString);
+                URL url = new URL("http://192.168.0.11:5001/predictTrackAttributes?userId=1&latitude="+lat+"&longitude="+longi+"&time="+dataString);
 //                URL url = new URL("http://10.249.248.198:5001/predictTrackAttributes?userId=1&latitude=1.03&longitude=103.1&time=2023-08-15%2000:00:00");
                 connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("POST");
@@ -285,7 +294,6 @@ public class homeFragment extends Fragment implements View.OnClickListener{
                         response.append(line);
                     }
                     if(response.toString()!=null){
-                       ;
                         JSONObject jsonObject = new JSONObject(response.toString());
                         playListId = jsonObject.getString("id");
                     }
@@ -304,6 +312,8 @@ public class homeFragment extends Fragment implements View.OnClickListener{
         }
 
     }
+
+
    public Thread getAllList(){
        return new Thread(new Runnable() {
             @Override
@@ -331,6 +341,7 @@ public class homeFragment extends Fragment implements View.OnClickListener{
                                     JSONObject jsonObject = jsonArray.getJSONObject(i);
                                     int playListID = jsonObject.getInt("id");
                                     String name = jsonObject.getString("playlistName");
+                                    String spotifyPlaylistId = jsonObject.getString("spotifyPlaylistId");
                                     String timestampString = jsonObject.getString("timestamp");
                                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                                     Date time = dateFormat.parse(timestampString);
@@ -338,7 +349,34 @@ public class homeFragment extends Fragment implements View.OnClickListener{
                                     playlist.setName(name);
                                     playlist.setTimestamp(time);
                                     playlist.setImageResId(R.drawable.default_playlist_image);
+                                    playlist.setSpotifyPlaylistId(spotifyPlaylistId);
+//                                    JSONArray songArray = jsonObject.getJSONArray("playlistSongs");
+//                                    List<Musiclist> songs = new ArrayList<>();
+//                                    for (int j = 0; j<songArray.length();j++){
+//                                        JSONObject obj = songArray.getJSONObject(j);
+//                                        Musiclist musiclist = new Musiclist();
+//                                        String[] track = obj.getString("trackId").split(":",3);
+//                                        musiclist.setTrackID(track[2]);
+//                                        songs.add(musiclist);
+//                                    }
+//                                    playlist.setSongs(songs);
                                     playlists.add(playlist);
+                                    handler.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            try {
+                                                // Update your UI components here
+                                                // For example, update a TextView, RecyclerView, etc.
+                                                listView = view.findViewById(R.id.playlistListView);
+                                                PlaylistAdapter adapter = new PlaylistAdapter(getContext(),playlists);
+                                                listView.setAdapter(adapter);
+
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    });
+
                                 }
 
                             };
@@ -361,6 +399,7 @@ public class homeFragment extends Fragment implements View.OnClickListener{
         });
 
     }
+
     boolean addItemToPlayList(){
         try {
             HttpURLConnection connection = null;
@@ -411,6 +450,7 @@ public class homeFragment extends Fragment implements View.OnClickListener{
                 connection.setRequestProperty("Content-Type", "application/json"); // Set content type if needed
                 JSONObject jsonInput = new JSONObject();
                 jsonInput.put("playlistName", "jiayiTest");
+                jsonInput.put("spotifyPlaylistId", playListId);
                 jsonInput.put("timestamp", dataString);
                 jsonInput.put("longitude", lat);
                 jsonInput.put("latitude", longi);
@@ -427,7 +467,13 @@ public class homeFragment extends Fragment implements View.OnClickListener{
                 }
                 int responseCode = connection.getResponseCode();
                 if (responseCode == HttpURLConnection.HTTP_OK) {
-                    getAllList();
+                    if(loadPlayList==null){
+                        loadPlayList = getAllList();
+
+                    }
+
+                    loadPlayList.start();
+
                 }
 
             } catch (IOException e) {
