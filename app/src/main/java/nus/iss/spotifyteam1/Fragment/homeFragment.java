@@ -93,6 +93,8 @@ public class homeFragment extends Fragment implements View.OnClickListener{
 
     String TOKEN;
 
+    JSONObject MLResponse;
+
     private Handler handler = new Handler();
 
     public homeFragment() {
@@ -243,6 +245,7 @@ public class homeFragment extends Fragment implements View.OnClickListener{
                     if(response.toString()!=null){
                         JSONObject jsonObject = new JSONObject(response.toString());
                         JSONArray playlistSongsArray = jsonObject.getJSONArray("playlist_songs");
+                        MLResponse = jsonObject;
                         uris = new String[playlistSongsArray.length()];
 
                         for (int i = 0; i < playlistSongsArray.length(); i++) {
@@ -350,16 +353,6 @@ public class homeFragment extends Fragment implements View.OnClickListener{
                                     playlist.setTimestamp(time);
                                     playlist.setImageResId(R.drawable.default_playlist_image);
                                     playlist.setSpotifyPlaylistId(spotifyPlaylistId);
-//                                    JSONArray songArray = jsonObject.getJSONArray("playlistSongs");
-//                                    List<Musiclist> songs = new ArrayList<>();
-//                                    for (int j = 0; j<songArray.length();j++){
-//                                        JSONObject obj = songArray.getJSONObject(j);
-//                                        Musiclist musiclist = new Musiclist();
-//                                        String[] track = obj.getString("trackId").split(":",3);
-//                                        musiclist.setTrackID(track[2]);
-//                                        songs.add(musiclist);
-//                                    }
-//                                    playlist.setSongs(songs);
                                     playlists.add(playlist);
                                     handler.post(new Runnable() {
                                         @Override
@@ -454,6 +447,14 @@ public class homeFragment extends Fragment implements View.OnClickListener{
                 jsonInput.put("timestamp", dataString);
                 jsonInput.put("longitude", lat);
                 jsonInput.put("latitude", longi);
+                jsonInput.put("targetAcousticness",MLResponse.getString("target_acousticness"));
+                jsonInput.put("targetDanceability",MLResponse.getString("target_danceability"));
+                jsonInput.put("targetEnergy",MLResponse.getString("target_energy"));
+                jsonInput.put("targetLiveness",MLResponse.getString("target_liveness"));
+                jsonInput.put("targetLoudenes",MLResponse.getString("target_loudness"));
+                jsonInput.put("targetSpeechiness",MLResponse.getString("target_speechiness"));
+                jsonInput.put("targetTempo",MLResponse.getString("target_tempo"));
+                jsonInput.put("targetValence",MLResponse.getString("target_valence"));
                 JSONArray urisArray = new JSONArray();
                 for (String track:uris) {
                     JSONObject listSong = new JSONObject();
@@ -467,12 +468,8 @@ public class homeFragment extends Fragment implements View.OnClickListener{
                 }
                 int responseCode = connection.getResponseCode();
                 if (responseCode == HttpURLConnection.HTTP_OK) {
-                    if(loadPlayList==null){
-                        loadPlayList = getAllList();
-
-                    }
-
-                    loadPlayList.start();
+                    Intent intent = new Intent(requireActivity(),HomepageActivity.class);
+                    startActivity(intent);
 
                 }
 
