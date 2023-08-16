@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#212129"
     >
+
+
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/vp"
@@ -14,26 +16,23 @@
         android:layout_weight="1"
         />
 
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/nav_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#212129"
+        app:itemIconTint="@color/bottom_nav_item_color_selector"
+        app:itemTextColor="@color/bottom_nav_item_color_selector"
+        app:menu="@menu/menu_nav" />
     <!-- 原来Dashboard的Go to map-->
     <Button
         android:id="@+id/toMap"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Go to map"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="10dp"
-        android:backgroundTint="#1DB954"
-        />
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/nav_bottom"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="#FFFFFF"
-        app:menu="@menu/menu_nav"
-        app:itemIconTint="@color/bottom_nav_item_color_selector"
-        app:itemTextColor="@color/bottom_nav_item_color_selector"
+        android:layout_height="15dp"
+        android:layout_marginLeft="100dp"
+        android:layout_marginRight="100dp"
+        android:layout_marginBottom="0dp"
+        android:backgroundTint="#8F8E94"
         />
 
 </LinearLayout>

@@ -5,13 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#151515"
     tools:context=".Fragment.homeFragment">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Generated History"
-        android:textSize="24sp"
+        android:textSize="20sp"
+        android:textColor="#EAEAEA"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"/>
 
@@ -20,7 +22,9 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:layout_marginTop="4dp" />
+        android:layout_marginTop="4dp"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp"/>
 
     <Button
         android:id="@+id/generateButton"
@@ -29,6 +33,6 @@
         android:text="Generate new playlist"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:backgroundTint="#1DB954"/>
+        android:backgroundTint="#158A08"/>
 
 </LinearLayout>

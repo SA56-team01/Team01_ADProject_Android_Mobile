@@ -5,9 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#A4ACA7"
+    android:background="#434343"
     tools:context=".MusicActivity">
     <LinearLayout
+        android:background="@drawable/gradient_background"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -34,13 +35,22 @@
         android:orientation="horizontal">
 
         <!-- Album Cover Image -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="8dp"
+            app:cardBackgroundColor="@android:color/transparent"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="10dp"
+            app:cardElevation="0dp">
+
         <ImageView
             android:id="@+id/albumCoverImageView"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:scaleType="centerCrop"
-            android:layout_marginEnd="10dp"
-            android:layout_marginTop="10dp"/>
+            android:scaleType="centerCrop"/>
+
+        </androidx.cardview.widget.CardView>
 
         <!-- Vertical LinearLayout for Album Name and Description -->
         <LinearLayout
@@ -77,11 +87,24 @@
 
     </LinearLayout>
     </LinearLayout>
+
+
     <ListView
         android:id="@+id/musiclistListView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.75"
         android:layout_marginTop="0dp"
-        android:background="@drawable/playlist_background"/>
+        android:layout_weight="0.75"
+        android:background="@drawable/playlist_background"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp"/>
+
+    <Button
+        android:id="@+id/goSpotifyButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Open Spotify APP"
+        android:layout_margin="10dp"
+        android:backgroundTint="#158A08" />
+
 </LinearLayout>

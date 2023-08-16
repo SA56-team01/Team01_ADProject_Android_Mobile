@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- 颜色当项目被选中时 -->
-    <item android:color="@color/white" android:state_checked="true" />
+    <item android:color="#158A08" android:state_checked="true" />
     <!-- 默认颜色 -->
-    <item android:color="#4CAF50"  />
+    <item android:color="#8F8E94"  />
 
 </selector>

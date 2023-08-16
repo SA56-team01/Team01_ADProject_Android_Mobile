@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="?android:attr/colorControlHighlight"> <!-- 这是涟漪效果的颜色 -->
+
+    <item android:id="@android:id/mask">
+        <!-- 你可以根据需要定义形状，以下是一个示例 -->
+        <shape android:shape="rectangle">
+            <solid android:color="#FF0000" />
+        </shape>
+    </item>
+
+</ripple>

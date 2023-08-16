@@ -107,7 +107,7 @@ public class HomepageActivity extends AppCompatActivity implements View.OnClickL
             @SuppressLint("NonConstantResourceId")
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                //根据菜单ID显示页面
+
                 if(item.getItemId() == R.id.item_home){
                     viewPager.setCurrentItem(0,false);
                     // 将 ViewPager 的当前页面显示成索引为 0 的页面
@@ -121,7 +121,7 @@ public class HomepageActivity extends AppCompatActivity implements View.OnClickL
                     viewPager.setCurrentItem(2);
                     return true;
                 }
-                return false;
+                return true;
             }
 
         });

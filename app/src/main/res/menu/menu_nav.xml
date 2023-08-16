@@ -9,9 +9,7 @@
     <item
         android:id="@+id/item_more"
         android:icon="@drawable/more"
-        android:title="@string/feedback"
-
-        />
+        android:title="@string/feedback" />
 
     <item
         android:id="@+id/item_user"

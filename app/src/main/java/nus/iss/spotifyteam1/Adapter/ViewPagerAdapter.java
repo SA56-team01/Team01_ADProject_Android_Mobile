@@ -7,7 +7,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import java.util.List;
 
 public class ViewPagerAdapter extends FragmentPagerAdapter {
-    private List<Fragment> mfragmentList;
+    private final List<Fragment> mfragmentList;
     public ViewPagerAdapter(@NonNull FragmentManager fm,List<Fragment> fragmentList) {
         super(fm);//调用父类构造函数，传递FragmentManager 参数
         //用于确保适配器类内部具有有效的 FragmentManager 实例，从而顺利完成片段管理和展示的任务
