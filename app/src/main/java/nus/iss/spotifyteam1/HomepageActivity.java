@@ -29,11 +29,14 @@ import nus.iss.spotifyteam1.Fragment.moreFragment;
 import nus.iss.spotifyteam1.Fragment.userFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -46,7 +49,7 @@ public class HomepageActivity extends AppCompatActivity implements View.OnClickL
     private ViewPager viewPager;
 
     Thread bkgdThread;
-    private static final String BASE_URL = "localhost:8080/";
+    private static final String BASE_URL = "http://10.249.248.198:8080/api/";
 
     //从这里开始是原来Dashboard的部分
     String[] loction = {Manifest.permission.ACCESS_FINE_LOCATION};
@@ -69,6 +72,13 @@ public class HomepageActivity extends AppCompatActivity implements View.OnClickL
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homepage);
+        SharedPreferences location = getSharedPreferences("manual_location", MODE_PRIVATE);
+        if (location!=null){
+            latitude =location.getFloat("Latitude",0);
+            longitude= location.getFloat("Longitude",0);
+            isManualLocation = location.getBoolean("manual",false);
+        }
+
 
         //从这里开始是原来Dashboard的部分
         SharedPreferences pref = getSharedPreferences("user_obj", MODE_PRIVATE);
@@ -78,11 +88,7 @@ public class HomepageActivity extends AppCompatActivity implements View.OnClickL
         mContext = this;
         locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
         getLocation();
-        IntentFilter filter = new IntentFilter();
-//        filter.addAction("com.spotify.music.active");
-        filter.addAction("com.spotify.music.metadatachanged");
-        filter.addAction("manual_location");
-        registerReceiver(bcr, filter);
+        regis();
         btn = findViewById(R.id.toMap);
         btn.setOnClickListener(this);
         //从这里为止是原来Dashboard的部分
@@ -168,7 +174,7 @@ public class HomepageActivity extends AppCompatActivity implements View.OnClickL
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date date = new Date();
             dataString = formatter.format(date);
-            bkgdThread = saveLocation();
+
             SharedPreferences pref = getSharedPreferences("location", MODE_PRIVATE);
             SharedPreferences.Editor editor = pref.edit();
             editor.putFloat("Latitude",(float)latitude);
@@ -178,13 +184,14 @@ public class HomepageActivity extends AppCompatActivity implements View.OnClickL
         }
     };
 
+
     public Thread saveLocation(){
         return new Thread(new Runnable() {
             @Override
             public void run() {
                 HttpURLConnection connection = null;
                 try {
-                    URL url = new URL(BASE_URL + "url");
+                    URL url = new URL(BASE_URL + "userHistory?spotify_userId="+user.getId());
 //                    ?userId=123344&latitude=2232.33
                     connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod("POST");
@@ -193,10 +200,19 @@ public class HomepageActivity extends AppCompatActivity implements View.OnClickL
                     String[] track = trackId.split(":",3);
                     trackId = track[2];
                     jsonInput.put("userid", user.getId());
-                    jsonInput.put("trackid", trackId);
+                    jsonInput.put("spotifyTrackId", trackId);
                     jsonInput.put("latitude", latitude);
                     jsonInput.put("longitude", longitude);
+                    if(dataString==null){
+                        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        Date date = new Date();
+                        dataString = formatter.format(date);
+                    }
                     jsonInput.put("timestamp",dataString);
+                    try (OutputStream os = connection.getOutputStream()) {
+                        byte[] input = jsonInput.toString().getBytes("utf-8");
+                        os.write(input, 0, input.length);
+                    }
                     int responseCode = connection.getResponseCode();
                     if (responseCode == HttpURLConnection.HTTP_OK) {
 
@@ -222,14 +238,18 @@ public class HomepageActivity extends AppCompatActivity implements View.OnClickL
          if (action.equals("com.spotify.music.metadatachanged")) {
                 trackId = intent.getStringExtra("id");
                 getLocation();
+                 bkgdThread = saveLocation();
+                 if(trackId!=null){
+                     bkgdThread.start();
+                 }
             }
-         if(action.equals("manual_location")){
-             String lat = intent.getStringExtra("latitude");
-             String lon = intent.getStringExtra("longitude");
-             latitude = Double. valueOf(lat);
-             longitude = Double.valueOf(lon);
-             isManualLocation = true;
-         }
+//         if(action.equals("manual_location")){
+//             String lat = intent.getStringExtra("latitude");
+//             String lon = intent.getStringExtra("longitude");
+//             latitude = Double. valueOf(lat);
+//             longitude = Double.valueOf(lon);
+//             isManualLocation = true;
+//         }
         }
     };
 
@@ -239,12 +259,20 @@ public class HomepageActivity extends AppCompatActivity implements View.OnClickL
         unregisterReceiver(bcr);
     }
 
+
+    void regis(){
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("com.spotify.music.metadatachanged");
+        registerReceiver(bcr, filter);
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if(requestCode == MY_REQ_LOCATION){
             if(grantResults[0]== PackageManager.PERMISSION_GRANTED){
                 getLocation();
+
             }
 
         }
@@ -270,7 +298,5 @@ public class HomepageActivity extends AppCompatActivity implements View.OnClickL
             startActivity(intent);
         }
     }
-
-
 
 }
