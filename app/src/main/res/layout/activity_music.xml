@@ -24,7 +24,7 @@
             android:layout_marginStart="5dp"
             android:clickable="true"
             android:focusable="true"
-            app:tint="#FFFFFF" />  <!-- White color tint -->
+            app:tint="#F0F0F0" />  <!-- White color tint -->
 
 
     <!-- New section for Album cover, name, and description -->
@@ -71,7 +71,7 @@
                 android:layout_gravity="start"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="15dp"
-                android:textColor="#FFFFFF"/>  <!-- Added margin at the bottom -->
+                android:textColor="#F0F0F0"/>  <!-- Added margin at the bottom -->
 
             <!-- Album Description -->
             <TextView
@@ -81,7 +81,7 @@
                 android:text="Playlist Description"
                 android:textSize="14sp"
                 android:layout_gravity="start"
-                android:textColor="#E0E0E0"/>
+                android:textColor="#C7C7C7"/>
 
         </LinearLayout>
 
@@ -89,22 +89,31 @@
     </LinearLayout>
 
 
-    <ListView
-        android:id="@+id/musiclistListView"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="0dp"
-        android:layout_weight="0.75"
-        android:background="@drawable/playlist_background"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="0dp"/>
+        android:layout_weight="0.75">
 
-    <Button
-        android:id="@+id/goSpotifyButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Open Spotify APP"
-        android:layout_margin="10dp"
-        android:backgroundTint="#158A08" />
+        <ListView
+            android:id="@+id/musiclistListView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="0dp"
+            android:background="@drawable/playlist_background"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="0dp"/>
+
+        <Button
+            android:id="@+id/openSpotifyButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Open Spotify APP"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:backgroundTint="#158A08"
+            android:layout_marginBottom="5dp" />
+
+    </RelativeLayout>
+
 
 </LinearLayout>
