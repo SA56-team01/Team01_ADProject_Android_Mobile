@@ -12,6 +12,8 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -34,6 +36,8 @@ public class GeoJsonDemoActivity extends AppCompatActivity implements OnMapReady
     float latitude;
     float longitude;
     String time;
+
+    Button btn;
     public GoogleMap map;
     //mock data to add marker
     void addMarker(){
@@ -67,6 +71,15 @@ public class GeoJsonDemoActivity extends AppCompatActivity implements OnMapReady
         latitude = pref.getFloat("Latitude", 0);
         longitude = pref.getFloat("Longitude", 0);
         time = pref.getString("Time", "");
+
+        btn = findViewById(R.id.back);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(GeoJsonDemoActivity.this,HomepageActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 
@@ -111,11 +124,12 @@ public class GeoJsonDemoActivity extends AppCompatActivity implements OnMapReady
             @Override
             public boolean onMarkerClick(Marker marker) {
                 Toast.makeText(getApplicationContext(), "New location: "  +latitude+" , "+longitude, Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent("manual_location");
-                intent.putExtra("latitude", Double.toString(marker.getPosition().latitude));
-                intent.putExtra("longitude",Double.toString(marker.getPosition().longitude));
-                // Send the broadcast
-                sendBroadcast(intent);
+                SharedPreferences location = getSharedPreferences("manual_location", MODE_PRIVATE);
+                SharedPreferences.Editor editor = location.edit();
+                editor.putFloat("Latitude",(float)marker.getPosition().latitude);
+                editor.putFloat("Longitude",(float)marker.getPosition().longitude);
+                editor.putBoolean("manual",true);
+                editor.commit();
                 return false;
             }
         });
