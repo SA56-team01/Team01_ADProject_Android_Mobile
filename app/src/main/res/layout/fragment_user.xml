@@ -1,139 +1,256 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment.moreFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#151515"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <!-- First inner LinearLayout (30% height) -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:background="@drawable/rounded_background"
+        android:layout_marginBottom="26dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="35dp"
+        android:orientation="vertical">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/userProfile"
+            android:layout_marginTop="17dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/dodo"
+            android:layout_gravity="center" />
+
+        <TextView
+            android:id="@+id/userName"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="dodo_official"
+            android:textColor="#EAEAEA"
+            android:textSize="30dp"
+            android:layout_gravity="center" />
+
+        <TextView
+            android:id="@+id/userData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3496 follows | 114514 fans"
+            android:textColor="#D3D3D3"
+            android:textSize="12dp"
+            android:layout_gravity="center" />
+
+    </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
+        android:layout_height="0dp"
+        android:layout_weight="7"
+        android:background="@drawable/rounded_background"
+        android:layout_marginLeft="35dp"
+        android:layout_marginRight="35dp"
+        android:layout_marginBottom="36dp"
+        android:orientation="vertical">
+
+
         <LinearLayout
-            android:layout_width="300dp"
-            android:layout_height="200dp"
-            android:orientation="vertical"
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:layout_weight="1"
-            android:background="@drawable/rounded_background"
-            >
-            <ImageView
-                android:layout_marginTop="30dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/user"
-                android:layout_gravity="center"></ImageView>
-            <TextView
-                android:layout_marginTop="10dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="User ID"
-                android:textSize="30dp"
-                android:layout_gravity="center"></TextView>
-        </LinearLayout>
-        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:layout_marginBottom="20dp"
-            android:layout_width="300dp"
-            android:layout_height="400dp"
-            android:orientation="vertical"
             android:layout_gravity="center"
-            android:layout_weight="1"
-            android:background="@drawable/rounded_background"
-            >
+            android:orientation="vertical">
+
             <LinearLayout
-                android:layout_marginTop="30dp"
-                android:layout_marginBottom="20dp"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_gravity="center"
-                >
-                <TextView
-                    android:layout_marginTop="20dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="   Manage Permission"
-                    android:textSize="23dp"
-                    android:drawableLeft="@drawable/manage"
-                    ></TextView>
-                <TextView
-                    android:layout_marginTop="20dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="   Review Our APP"
-                    android:drawableLeft="@drawable/starhalf"
-                    android:textSize="23dp"
-                    ></TextView>
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:layout_marginTop="11dp"
+                android:paddingVertical="8dp">
+
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:src="@drawable/manage"
+                    android:layout_marginLeft="35dp"
+                    app:tint="#EAEAEA" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:drawableLeft="@drawable/version"
-                    android:text="   Version"
-                    android:textSize="23dp"></TextView>
-
-                <TextView
-                    android:layout_marginTop="20dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="   Share to Friends"
-                    android:textSize="23dp"
-                    android:drawableLeft="@drawable/share"
-                    ></TextView>
-                <TextView
-                    android:layout_marginTop="20dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="  Delete My Data"
-                    android:drawableLeft="@drawable/delete"
-                    android:textSize="23dp"
-                    ></TextView>
-                <LinearLayout
-                    android:layout_marginTop="20dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
                     android:layout_gravity="center"
-                    >
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/facebook"></ImageView>
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/instagram"></ImageView>
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/line"></ImageView>
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/weibo"></ImageView>
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/twittercircled"></ImageView>
-                </LinearLayout>
+                    android:layout_marginStart="16dp"
+                    android:textSize="18dp"
+                    android:text="Manage Permission"
+                    android:textColor="#EAEAEA" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:layout_marginTop="11dp"
+                android:paddingVertical="8dp">
+
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:src="@drawable/starhalf"
+                    android:layout_marginLeft="35dp"
+                    app:tint="#EAEAEA" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="16dp"
+                    android:textSize="18dp"
+                    android:text="Review Our APP"
+                    android:textColor="#EAEAEA" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:layout_marginTop="11dp"
+                android:paddingVertical="8dp">
+
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:src="@drawable/version"
+                    android:layout_marginLeft="35dp"
+                    app:tint="#EAEAEA" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="16dp"
+                    android:textSize="18dp"
+                    android:text="Version"
+                    android:textColor="#EAEAEA" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:layout_marginTop="11dp"
+                android:paddingVertical="8dp">
+
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:src="@drawable/share"
+                    android:layout_marginLeft="35dp"
+                    app:tint="#EAEAEA" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="16dp"
+                    android:textSize="18dp"
+                    android:text="Share to Friends"
+                    android:textColor="#EAEAEA" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:layout_marginTop="11dp"
+                android:paddingVertical="8dp">
+
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:src="@drawable/delete"
+                    android:layout_marginLeft="35dp"
+                    app:tint="#EAEAEA" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="16dp"
+                    android:textSize="18dp"
+                    android:text="Delete My Data"
+                    android:textColor="#EAEAEA" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_marginTop="35dp"
+                android:paddingVertical="8dp">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/facebook"
+                    android:layout_marginEnd="10dp"
+                     />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/instagram"
+                    android:layout_marginEnd="10dp"
+                    />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/line"
+                    android:layout_marginEnd="10dp"
+                    />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/weibo"
+                    android:layout_marginEnd="10dp"
+                     />
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/twittercircled"
+                     />
 
             </LinearLayout>
 
-            <Button
-                android:id="@+id/logout"
-                android:layout_marginRight="30dp"
-                android:layout_marginLeft="30dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Logout"
-                android:textSize="20dp"
-                android:layout_gravity="center"></Button>
+
+
         </LinearLayout>
+        <Button
+            android:id="@+id/logout"
+            android:layout_marginRight="30dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="12dp"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:text="Logout"
+            android:textSize="16dp"
+            android:backgroundTint="#158A08"
+            android:layout_gravity="center" />
 
     </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
