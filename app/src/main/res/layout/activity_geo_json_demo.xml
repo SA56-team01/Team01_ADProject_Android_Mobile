@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
+    android:layout_height="match_parent">
+
+    <!-- Map fragment that fills the entire screen -->
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:map="http://schemas.android.com/apk/res-auto"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:id="@+id/map"
         android:layout_width="match_parent"
-        android:layout_height="660dp"
+        android:layout_height="match_parent"
         map:cameraBearing="112.5"
         map:cameraTilt="30"
         map:cameraZoom="13"
@@ -22,13 +22,15 @@
         map:uiTiltGestures="true"
         map:uiZoomControls="true"
         map:uiZoomGestures="true"/>
-    <Button
-        android:layout_marginTop="10dp"
-        android:id="@+id/back"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Go Back"
-        android:backgroundTint="#4CAF50"
-        ></Button>
 
-</LinearLayout>
+    <!-- Button floating at the bottom -->
+    <Button
+        android:id="@+id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Go to Home"
+        android:layout_gravity="bottom|center_horizontal"
+        android:backgroundTint="#158A08"
+        android:layout_marginBottom="16dp" />
+
+</FrameLayout>
