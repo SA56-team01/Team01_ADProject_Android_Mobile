@@ -163,6 +163,7 @@ public class homeFragment extends Fragment implements View.OnClickListener{
                 intent.putExtra("spotifyPlaylistId",clickedPlaylist.getSpotifyPlaylistId());
 
                 startActivity(intent);
+                getActivity().finish();
             }
         });
 

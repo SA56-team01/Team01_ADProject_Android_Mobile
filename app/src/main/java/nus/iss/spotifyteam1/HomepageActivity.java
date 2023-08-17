@@ -305,6 +305,7 @@ public class HomepageActivity extends AppCompatActivity implements View.OnClickL
         if(id == R.id.toMap){
             Intent intent = new Intent(HomepageActivity.this,GeoJsonDemoActivity.class);
             startActivity(intent);
+            finish();
         }
     }
 
