@@ -86,7 +86,7 @@ public class MusicActivity extends AppCompatActivity {
         nameTextView.setText(playlistName);
 
         TextView descriptionTextView = findViewById(R.id.playlistDescriptionTextView);  // Similarly, a TextView for the description
-        descriptionTextView.setText(timeString);
+        descriptionTextView.setText(playlistDescription);
 
         ImageView imageView = findViewById(R.id.albumCoverImageView);
         imageView.setImageResource(R.drawable.default_playlist_image);

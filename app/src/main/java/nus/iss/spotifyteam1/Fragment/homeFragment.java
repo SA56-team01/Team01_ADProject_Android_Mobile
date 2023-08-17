@@ -77,6 +77,8 @@ public class homeFragment extends Fragment implements View.OnClickListener{
     String playListId;
 
     String dataString;
+
+    String playlist_description;
     String res;
     String playlistnameT;
 
@@ -116,6 +118,11 @@ public class homeFragment extends Fragment implements View.OnClickListener{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date();
+        dataString = formatter.format(date);
+
+        playlist_description = "dynamic generated from Team1 - "+dataString;
         loadPlayList = getAllList();
         loadPlayList.start();
         SharedPreferences user = requireActivity().getSharedPreferences("user_obj", Context.MODE_PRIVATE);
@@ -185,9 +192,6 @@ public class homeFragment extends Fragment implements View.OnClickListener{
 
 
 
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            Date date = new Date();
-            dataString = formatter.format(date);
             bkgdThread = generatePlaylist();
             bkgdThread.start();
         }
@@ -295,7 +299,8 @@ public class homeFragment extends Fragment implements View.OnClickListener{
                 JSONObject jsonInput = new JSONObject();
                 playlistnameT = username+" - "+dataString;
                 jsonInput.put("name", playlistnameT);
-                jsonInput.put("description", "dynamic generated from Team1 ");
+
+                jsonInput.put("description", playlist_description);
                 jsonInput.put("public", true);
                 try (OutputStream os = connection.getOutputStream()) {
                     byte[] input = jsonInput.toString().getBytes("utf-8");
@@ -367,6 +372,7 @@ public class homeFragment extends Fragment implements View.OnClickListener{
                                     playlist.setTimestamp(time);
                                     playlist.setImageResId(R.drawable.default_playlist_image);
                                     playlist.setSpotifyPlaylistId(spotifyPlaylistId);
+                                    playlist.setDescription(playlist_description);
                                     playlists.add(playlist);
                                     handler.post(new Runnable() {
                                         @Override
