@@ -125,14 +125,14 @@ public class MusicActivity extends AppCompatActivity {
 
             Musiclist playlist = getItem(position);
 
-            //ImageView imageView = convertView.findViewById(R.id.playlistImageView);
-            //imageView.setImageResource(playlist.getImageResId());
+//            ImageView imageView = convertView.findViewById(R.id.playlistImageView);
+//            imageView.setImageResource(playlist.getImageResId());
 
             TextView nameTextView = convertView.findViewById(R.id.musicNameTextView);
             nameTextView.setText(playlist.getName());
 
             TextView descriptionTextView = convertView.findViewById(R.id.musicDescriptionTextView);
-            descriptionTextView.setText(playlist.getDescription());
+            descriptionTextView.setText(playlist.getArtist());
 
             return convertView;
         }
