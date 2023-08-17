@@ -49,7 +49,7 @@ public class HomepageActivity extends AppCompatActivity implements View.OnClickL
     private ViewPager viewPager;
 
     Thread bkgdThread;
-    private static final String BASE_URL = "http://192.168.0.11:8080/api/";
+
 
     //从这里开始是原来Dashboard的部分
     String[] loction = {Manifest.permission.ACCESS_FINE_LOCATION};
@@ -191,7 +191,7 @@ public class HomepageActivity extends AppCompatActivity implements View.OnClickL
             public void run() {
                 HttpURLConnection connection = null;
                 try {
-                    URL url = new URL(BASE_URL + "userHistory?spotify_userId="+user.getId());
+                    URL url = new URL(getString(R.string.BACKEND_URL) + "userHistory?spotify_userId="+user.getId());
 //                    ?userId=123344&latitude=2232.33
                     connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod("POST");

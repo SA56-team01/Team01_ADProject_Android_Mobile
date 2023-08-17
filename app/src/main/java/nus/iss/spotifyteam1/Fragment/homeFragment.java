@@ -85,8 +85,6 @@ public class homeFragment extends Fragment implements View.OnClickListener{
     String playListStoreToDB;
 
     private static final String BASE_URL = "https://api.spotify.com/";
-    private static  final  String BACKEND_URL = "http://192.168.0.11:8080/api/";
-
     Button generateButton;
 
     Thread bkgdThread;
@@ -224,7 +222,7 @@ public class homeFragment extends Fragment implements View.OnClickListener{
             HttpURLConnection connection = null;
             BufferedReader reader = null;
             try {
-                URL url = new URL("http://192.168.0.11:5001/predictTrackAttributes?userId=1&latitude="+lat+"&longitude="+longi+"&time="+dataString);
+                URL url = new URL(getString(R.string.ML_URL)+"predictTrackAttributes?userId=1&latitude="+lat+"&longitude="+longi+"&time="+dataString);
 //                URL url = new URL("http://10.249.248.198:5001/predictTrackAttributes?userId=1&latitude=1.03&longitude=103.1&time=2023-08-15%2000:00:00");
                 connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("POST");
@@ -325,7 +323,7 @@ public class homeFragment extends Fragment implements View.OnClickListener{
                     HttpURLConnection connection = null;
                     BufferedReader reader = null;
                     try {
-                        URL url = new URL(BACKEND_URL + "playlists/user/"+userid);
+                        URL url = new URL(getString(R.string.BACKEND_URL) + "playlists/user/"+userid);
                         connection = (HttpURLConnection) url.openConnection();
                         connection.setRequestMethod("GET");
                         connection.setRequestProperty("Content-Type", "application/json"); // Set content type if needed
@@ -437,7 +435,7 @@ public class homeFragment extends Fragment implements View.OnClickListener{
             HttpURLConnection connection = null;
             BufferedReader reader = null;
             try {
-                URL url = new URL(BACKEND_URL + "playlists/store?spotify_userId="+userid);
+                URL url = new URL(getString(R.string.BACKEND_URL) + "playlists/store?spotify_userId="+userid);
                 connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("POST");
                 connection.setRequestProperty("Content-Type", "application/json"); // Set content type if needed

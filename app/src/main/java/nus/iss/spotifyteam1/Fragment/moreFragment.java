@@ -34,7 +34,6 @@ public class moreFragment extends Fragment {
     Button submit;
     EditText message;
     Thread bkgdThread;
-    private static final String BASE_URL = "localhost:8080/" ;
 
 
     @Override
@@ -56,6 +55,7 @@ public class moreFragment extends Fragment {
                     SharedPreferences pref = requireActivity().getSharedPreferences("user_obj", Context.MODE_PRIVATE);
                     String userId = pref.getString("user_id", "");
                     bkgdThread = saveFeedBack(userId);
+                    bkgdThread.start();
                 }
             });
         }
@@ -76,26 +76,24 @@ public class moreFragment extends Fragment {
                 HttpURLConnection connection = null;
                 BufferedReader reader = null;
                 try {
-                    URL url = new URL(BASE_URL + "/api/feedback/save");
+                    URL url = new URL(getString(R.string.BACKEND_URL)+"feedback/save?spotify_user_id="+userId+"&feedback_text="+msg);
                     connection = (HttpURLConnection) url.openConnection();
                     connection.setRequestMethod("POST");
                     connection.setRequestProperty("Content-Type", "application/json"); // Set content type
                     connection.setDoOutput(true);
-                    JSONObject jsonInput = new JSONObject();
-                    jsonInput.put("userid", userId);
-                    jsonInput.put("message", msg);
-                    try (OutputStream os = connection.getOutputStream()) {
-                        byte[] input = jsonInput.toString().getBytes("utf-8");
-                        os.write(input, 0, input.length);
-                    }
+//                    JSONObject jsonInput = new JSONObject();
+//                    jsonInput.put("spotify_user_id", userId);
+//                    jsonInput.put("feedback_text", msg);
+//                    try (OutputStream os = connection.getOutputStream()) {
+//                        byte[] input = jsonInput.toString().getBytes("utf-8");
+//                        os.write(input, 0, input.length);
+//                    }
                     int responseCode = connection.getResponseCode();
                     if (responseCode == HttpURLConnection.HTTP_OK) {
 
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
-                } catch (JSONException e) {
-                    throw new RuntimeException(e);
                 }
                 bkgdThread = null;
             }
