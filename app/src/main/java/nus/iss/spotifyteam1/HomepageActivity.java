@@ -215,8 +215,9 @@ public class HomepageActivity extends AppCompatActivity implements View.OnClickL
                     String[] track = trackId.split(":",3);
                     if(track.length>2){
                         trackId = track[2];
-                        previousTrackId = trackId;
+
                     }
+                    previousTrackId = trackId;
                     jsonInput.put("userid", user.getId());
                     jsonInput.put("spotifyTrackId", trackId);
                     jsonInput.put("latitude", latitude);
