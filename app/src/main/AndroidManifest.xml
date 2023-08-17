@@ -52,7 +52,9 @@
             android:exported="true"
             android:label="@string/app_name"
             android:launchMode="singleInstance" />
-        <activity android:name=".HomepageActivity" />
+        <activity android:name=".HomepageActivity"
+            android:launchMode="singleInstance"
+            />
         <activity
             android:name=".MainActivity"
             android:exported="true">

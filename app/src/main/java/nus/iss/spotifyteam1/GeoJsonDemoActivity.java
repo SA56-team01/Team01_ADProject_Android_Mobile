@@ -205,17 +205,17 @@ public class GeoJsonDemoActivity extends AppCompatActivity implements OnMapReady
 
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        SharedPreferences location = getSharedPreferences("manual_location", MODE_PRIVATE);
-        SharedPreferences.Editor editor = location.edit();
-        editor.putFloat("Latitude",0);
-        editor.putFloat("Longitude",0);
-        editor.putBoolean("manual",false);
-        editor.commit();
-
-    }
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        SharedPreferences location = getSharedPreferences("manual_location", MODE_PRIVATE);
+//        SharedPreferences.Editor editor = location.edit();
+//        editor.putFloat("Latitude",0);
+//        editor.putFloat("Longitude",0);
+//        editor.putBoolean("manual",false);
+//        editor.commit();
+//
+//    }
 
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
