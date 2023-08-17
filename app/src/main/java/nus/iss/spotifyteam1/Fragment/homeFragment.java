@@ -65,6 +65,8 @@ public class homeFragment extends Fragment implements View.OnClickListener{
 
     Thread loadPlayList;
 
+    Boolean isManualLocation = false;
+
 
     private BottomNavigationView navigationView;
 
@@ -76,10 +78,12 @@ public class homeFragment extends Fragment implements View.OnClickListener{
 
     String dataString;
     String res;
+    String playlistnameT;
 
     float lat;
     float longi;
 
+    String username;
     View view;
     String[] uris;
     String playListStoreToDB;
@@ -117,6 +121,7 @@ public class homeFragment extends Fragment implements View.OnClickListener{
         SharedPreferences user = requireActivity().getSharedPreferences("user_obj", Context.MODE_PRIVATE);
         TOKEN = user.getString("user_TOKEN", "");
         userid = user.getString("user_id","");
+        username = user.getString("user_name","");
 //        playlists.add(new Playlist("Playlist1", 114510, "8.5.2023", R.drawable.playlist_image1));
 //        playlists.add(new Playlist("Playlist2", 321654, "8.2.2023", R.drawable.playlist_image2));
 //        playlists.add(new Playlist("Playlist3", 1234556, "28.7.2023", R.drawable.playlist_image3));
@@ -165,9 +170,19 @@ public class homeFragment extends Fragment implements View.OnClickListener{
     public void onClick(View view) {
         int id = view.getId();
         if (id == R.id.generateButton) {
-            SharedPreferences pref = requireActivity().getSharedPreferences("location", Context.MODE_PRIVATE);
-            lat = pref.getFloat("Latitude",0);
-            longi = pref.getFloat("Longitude",0);
+            SharedPreferences location =requireActivity().getSharedPreferences("manual_location",Context.MODE_PRIVATE);
+            isManualLocation = location.getBoolean("manual",false);
+            if(isManualLocation){
+                lat =location.getFloat("Latitude",0);
+                longi= location.getFloat("Longitude",0);
+
+            }
+            else {
+                SharedPreferences pref = requireActivity().getSharedPreferences("location", Context.MODE_PRIVATE);
+                lat = pref.getFloat("Latitude",0);
+                longi = pref.getFloat("Longitude",0);
+            }
+
 
 
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -278,7 +293,8 @@ public class homeFragment extends Fragment implements View.OnClickListener{
                 connection.setRequestProperty("Authorization", "Bearer " + TOKEN);
                 connection.setRequestProperty("Content-Type", "application/json"); // Set content type if needed
                 JSONObject jsonInput = new JSONObject();
-                jsonInput.put("name", "New PlayList");
+                playlistnameT = username+" - "+dataString;
+                jsonInput.put("name", playlistnameT);
                 jsonInput.put("description", "dynamic generated from Team1 ");
                 jsonInput.put("public", true);
                 try (OutputStream os = connection.getOutputStream()) {
@@ -440,7 +456,7 @@ public class homeFragment extends Fragment implements View.OnClickListener{
                 connection.setRequestMethod("POST");
                 connection.setRequestProperty("Content-Type", "application/json"); // Set content type if needed
                 JSONObject jsonInput = new JSONObject();
-                jsonInput.put("playlistName", "jiayiTest");
+                jsonInput.put("playlistName", playlistnameT);
                 jsonInput.put("spotifyPlaylistId", playListId);
                 jsonInput.put("timestamp", dataString);
                 jsonInput.put("longitude", lat);
@@ -486,6 +502,7 @@ public class homeFragment extends Fragment implements View.OnClickListener{
     }
 
     public Thread generatePlaylist() {
+
         //call get_top_api from spotify
         //send response to ML
         //get response from ML ( 20 music track id)

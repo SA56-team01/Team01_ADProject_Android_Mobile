@@ -73,11 +73,7 @@ public class HomepageActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_homepage);
         SharedPreferences location = getSharedPreferences("manual_location", MODE_PRIVATE);
-        if (location!=null){
-            latitude =location.getFloat("Latitude",0);
-            longitude= location.getFloat("Longitude",0);
-            isManualLocation = location.getBoolean("manual",false);
-        }
+        isManualLocation = location.getBoolean("manual",false);
 
 
         //从这里开始是原来Dashboard的部分
@@ -166,10 +162,14 @@ public class HomepageActivity extends AppCompatActivity implements View.OnClickL
     LocationListener locationListenerGPS = new LocationListener() {
         @Override
         public void onLocationChanged(android.location.Location location) {
-
+            SharedPreferences Mylocation = getSharedPreferences("manual_location", MODE_PRIVATE);
+                isManualLocation = Mylocation.getBoolean("manual",false);
             if(!isManualLocation){
                 latitude = location.getLatitude();
                 longitude = location.getLongitude();
+            }else {
+                latitude =Mylocation.getFloat("Latitude",0);
+                longitude= Mylocation.getFloat("Longitude",0);
             }
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date date = new Date();
@@ -181,6 +181,12 @@ public class HomepageActivity extends AppCompatActivity implements View.OnClickL
             editor.putFloat("Longitude",(float)longitude);
             editor.putString("Time",dataString);
             editor.commit();
+
+            bkgdThread = saveLocation();
+            if(trackId!=null){
+                bkgdThread.start();
+            }
+
         }
     };
 
@@ -238,18 +244,8 @@ public class HomepageActivity extends AppCompatActivity implements View.OnClickL
          if (action.equals("com.spotify.music.metadatachanged")) {
                 trackId = intent.getStringExtra("id");
                 getLocation();
-                 bkgdThread = saveLocation();
-                 if(trackId!=null){
-                     bkgdThread.start();
-                 }
+
             }
-//         if(action.equals("manual_location")){
-//             String lat = intent.getStringExtra("latitude");
-//             String lon = intent.getStringExtra("longitude");
-//             latitude = Double. valueOf(lat);
-//             longitude = Double.valueOf(lon);
-//             isManualLocation = true;
-//         }
         }
     };
 
