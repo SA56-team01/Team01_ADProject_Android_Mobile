@@ -204,7 +204,9 @@ public class HomepageActivity extends AppCompatActivity implements View.OnClickL
                     connection.setRequestProperty("Content-Type", "application/json"); // Set content type if needed
                     JSONObject jsonInput = new JSONObject();
                     String[] track = trackId.split(":",3);
-                    trackId = track[2];
+                    if(track.length>3){
+                        trackId = track[2];
+                    }
                     jsonInput.put("userid", user.getId());
                     jsonInput.put("spotifyTrackId", trackId);
                     jsonInput.put("latitude", latitude);
