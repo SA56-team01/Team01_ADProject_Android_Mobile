@@ -166,6 +166,9 @@ public class homeFragment extends Fragment implements View.OnClickListener{
 
         generateButton = view.findViewById(R.id.generateButton);
         generateButton.setOnClickListener(this);
+//
+
+
 
         return view;
         //listView = listView.findViewById(R.id.playlistListView);
