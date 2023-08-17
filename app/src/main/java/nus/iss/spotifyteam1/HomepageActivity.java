@@ -62,6 +62,8 @@ public class HomepageActivity extends AppCompatActivity implements View.OnClickL
     double longitude;
     String dataString;
     String trackId;
+    String previousTrackId;
+
 
     boolean isManualLocation = false;
 
@@ -184,7 +186,14 @@ public class HomepageActivity extends AppCompatActivity implements View.OnClickL
 
             bkgdThread = saveLocation();
             if(trackId!=null){
-                bkgdThread.start();
+                String[] track = trackId.split(":",3);
+                if(track.length>2){
+                    trackId = track[2];
+                }
+                if(trackId!=previousTrackId){
+                    bkgdThread.start();
+
+                }
             }
 
         }
@@ -204,8 +213,9 @@ public class HomepageActivity extends AppCompatActivity implements View.OnClickL
                     connection.setRequestProperty("Content-Type", "application/json"); // Set content type if needed
                     JSONObject jsonInput = new JSONObject();
                     String[] track = trackId.split(":",3);
-                    if(track.length>3){
+                    if(track.length>2){
                         trackId = track[2];
+                        previousTrackId = trackId;
                     }
                     jsonInput.put("userid", user.getId());
                     jsonInput.put("spotifyTrackId", trackId);
