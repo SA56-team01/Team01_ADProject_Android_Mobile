@@ -46,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
 //                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this,pairs);
 //                startActivity(intent,options.toBundle());
                 startActivity(intent);
-                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 finish();
             }
         },SPLASH_SCREEN);

@@ -8,5 +8,29 @@
     </style>
 
 
+    <style name="AlertDialogCustom" parent="Theme.AppCompat.Dialog.Alert">
+        <!-- Background color -->
+        <item name="android:background">#000000</item>
+        <!-- Title and Message color -->
+        <item name="android:textColor">#FFFFFF</item>
+        <!-- Button colors -->
+        <item name="android:buttonBarPositiveButtonStyle">@style/PositiveButtonTextStyle</item>
+        <item name="android:buttonBarNegativeButtonStyle">@style/NegativeButtonTextStyle</item>
+        <item name="android:buttonBarButtonStyle">@style/CustomButtonStyle</item>
+    </style>
+
+    <style name="CustomButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:background">#000000</item>
+    </style>
+
+    <style name="PositiveButtonTextStyle" parent="TextAppearance.AppCompat.Button">
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+    <style name="NegativeButtonTextStyle" parent="TextAppearance.AppCompat.Button">
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+
 
 </resources>

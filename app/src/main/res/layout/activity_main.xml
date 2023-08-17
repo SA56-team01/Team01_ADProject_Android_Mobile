@@ -30,7 +30,7 @@
             android:transitionName="text"
             android:text="Let's start Music"
             android:textColor="#AAA9A9"
-            android:textSize="20sp"/>
+            android:textSize="13sp"/>
 
     </LinearLayout>
 

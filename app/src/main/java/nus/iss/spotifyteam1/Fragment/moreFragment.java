@@ -1,6 +1,8 @@
 package nus.iss.spotifyteam1.Fragment;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -46,20 +48,42 @@ public class moreFragment extends Fragment {
     public void onStart() {
         super.onStart();
         View view = getView();
-        if(view != null){
+        if (view != null) {
             submit = view.findViewById(R.id.submit);
             message = view.findViewById(R.id.feedback);
             submit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    SharedPreferences pref = requireActivity().getSharedPreferences("user_obj", Context.MODE_PRIVATE);
-                    String userId = pref.getString("user_id", "");
-                    bkgdThread = saveFeedBack(userId);
-                    bkgdThread.start();
+
+                    String feedbackText = message.getText().toString().trim(); // 获取去掉前后空白的反馈内容
+
+                    if (feedbackText.isEmpty()) {
+                        Toast.makeText(requireContext(), "Please enter you feedback", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(requireContext(), R.style.AlertDialogCustom);
+
+                    builder.setTitle("Confirm Submission");
+                    builder.setMessage("Are you sure you want to submit your feedback?");
+                    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            SharedPreferences pref = requireActivity().getSharedPreferences("user_obj", Context.MODE_PRIVATE);
+                            String userId = pref.getString("user_id", "");
+                            bkgdThread = saveFeedBack(userId);
+                            bkgdThread.start();
+                            message.setText("");
+                            Toast.makeText(requireContext(), "Submit successfully", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    builder.setNegativeButton("No", null);
+                    builder.show();
                 }
             });
         }
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
