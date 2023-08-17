@@ -1,7 +1,6 @@
 package nus.iss.spotifyteam1;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;

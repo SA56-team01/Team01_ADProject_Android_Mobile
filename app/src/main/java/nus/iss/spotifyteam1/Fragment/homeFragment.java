@@ -194,9 +194,6 @@ public class homeFragment extends Fragment implements View.OnClickListener{
                 lat = pref.getFloat("Latitude",0);
                 longi = pref.getFloat("Longitude",0);
             }
-
-
-
             bkgdThread = generatePlaylist();
             bkgdThread.start();
         }
@@ -457,6 +454,7 @@ public class homeFragment extends Fragment implements View.OnClickListener{
         }
         return true;
     }
+
     void savePlaylistToDB(){
         try {
             HttpURLConnection connection = null;
@@ -536,7 +534,6 @@ public class homeFragment extends Fragment implements View.OnClickListener{
             }
         });
     }
-
 
     private class PlaylistAdapter extends ArrayAdapter<Playlist> {
         public PlaylistAdapter(Context context, List<Playlist> playlists) {
