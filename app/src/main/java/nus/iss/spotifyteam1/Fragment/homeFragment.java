@@ -122,13 +122,15 @@ public class homeFragment extends Fragment implements View.OnClickListener{
         Date date = new Date();
         dataString = formatter.format(date);
 
-        playlist_description = "dynamic generated from Team1 - "+dataString;
         loadPlayList = getAllList();
         loadPlayList.start();
         SharedPreferences user = requireActivity().getSharedPreferences("user_obj", Context.MODE_PRIVATE);
         TOKEN = user.getString("user_TOKEN", "");
         userid = user.getString("user_id","");
         username = user.getString("user_name","");
+
+
+        playlist_description = "Specially made for "+ username +" on "+dataString + " ❤️";
 //        playlists.add(new Playlist("Playlist1", 114510, "8.5.2023", R.drawable.playlist_image1));
 //        playlists.add(new Playlist("Playlist2", 321654, "8.2.2023", R.drawable.playlist_image2));
 //        playlists.add(new Playlist("Playlist3", 1234556, "28.7.2023", R.drawable.playlist_image3));
