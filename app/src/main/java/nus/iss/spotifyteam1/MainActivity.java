@@ -15,7 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
-    private static int SPLASH_SCREEN = 1500;
+    private static int SPLASH_SCREEN = 2500;
     ImageView imageView;
     TextView textView;
     Animation move;
@@ -29,22 +29,23 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         move = AnimationUtils.loadAnimation(this,R.anim.fade_in);
 
-        imageView = findViewById(R.id.homeImage);
-        textView = findViewById(R.id.myteam);
-        title = findViewById(R.id.title);
+//        imageView = findViewById(R.id.homeImage);
+//        textView = findViewById(R.id.myteam);
+        //title = findViewById(R.id.title);
 //        imageView.setAnimation(move);
-        textView.setAnimation(move);
-        title.setAnimation(move);
+//        textView.setAnimation(move);
+//        title.setAnimation(move);
 
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                Pair[] pairs = new Pair[2];
-                pairs[0] = new Pair<View, String>(imageView,"image");
-                pairs[1] = new Pair<View, String>(textView,"text");
-                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this,pairs);
-                startActivity(intent,options.toBundle());
+//                Pair[] pairs = new Pair[2];
+//                pairs[0] = new Pair<View, String>(imageView,"image");
+//                pairs[1] = new Pair<View, String>(textView,"text");
+//                ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this,pairs);
+//                startActivity(intent,options.toBundle());
+                startActivity(intent);
                 finish();
             }
         },SPLASH_SCREEN);
