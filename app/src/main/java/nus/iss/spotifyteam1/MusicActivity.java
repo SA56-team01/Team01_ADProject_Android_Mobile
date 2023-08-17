@@ -8,12 +8,15 @@ import androidx.viewpager.widget.ViewPager;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -48,6 +51,8 @@ public class MusicActivity extends AppCompatActivity {
 
     Thread getTracksInfo;
     String timeString;
+
+    Button openSpotifyButton;
 
     String TOKEN;
     private String playlistDescription;
@@ -108,6 +113,16 @@ public class MusicActivity extends AppCompatActivity {
         });
 
 
+        openSpotifyButton = findViewById(R.id.openSpotifyButton);
+        openSpotifyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent spotifyIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("spotify:playlist:"+spotifyPlaylistId));
+                startActivity(spotifyIntent);
+            }
+        });
+
     }
 
     private class MusiclistAdapter extends ArrayAdapter<Musiclist> {
@@ -130,6 +145,9 @@ public class MusicActivity extends AppCompatActivity {
 
             TextView nameTextView = convertView.findViewById(R.id.musicNameTextView);
             nameTextView.setText(playlist.getName());
+
+            TextView countTextView = convertView.findViewById(R.id.numberTextView);
+            countTextView.setText(position+1+" ");
 
             TextView descriptionTextView = convertView.findViewById(R.id.musicDescriptionTextView);
             descriptionTextView.setText(playlist.getArtist());
@@ -171,7 +189,6 @@ public class MusicActivity extends AppCompatActivity {
                                             listView = findViewById(R.id.musiclistListView);
                                             MusiclistAdapter adapter = new MusiclistAdapter(musiclists);
                                             listView.setAdapter(adapter);
-
                                         } catch (Exception e) {
                                             e.printStackTrace();
                                         }
@@ -218,6 +235,7 @@ public class MusicActivity extends AppCompatActivity {
 
             Musiclist musiclist = new Musiclist();
             musiclist.setName(trackObject.getString("name"));
+
             musiclist.setDescription(json.getString("description"));
 
             JSONArray artists = trackObject.getJSONArray("artists");

@@ -493,6 +493,7 @@ public class homeFragment extends Fragment implements View.OnClickListener{
                 if (responseCode == HttpURLConnection.HTTP_OK) {
                     Intent intent = new Intent(requireActivity(),HomepageActivity.class);
                     startActivity(intent);
+                    getActivity().finish();
 
                 }
 
