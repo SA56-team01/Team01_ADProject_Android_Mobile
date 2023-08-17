@@ -4,6 +4,16 @@ public class Musiclist {
     private String name;
     private String description;
 
+    private int count;
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
     private  String artist;
     private int imageResId;
     private String trackID;

@@ -96,10 +96,10 @@ public class GeoJsonDemoActivity extends AppCompatActivity implements OnMapReady
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(GeoJsonDemoActivity.this,HomepageActivity.class);
-                startActivity(intent);
+                //Intent intent = new Intent(GeoJsonDemoActivity.this,HomepageActivity.class);
+                //startActivity(intent);
 
-//                finish();
+                finish();
 
             }
         });
