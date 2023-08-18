@@ -387,14 +387,16 @@ public class homeFragment extends Fragment implements View.OnClickListener{
                                     String name = jsonObject.getString("playlistName");
                                     String spotifyPlaylistId = jsonObject.getString("spotifyPlaylistId");
                                     String timestampString = jsonObject.getString("timestamp");
+                                    String playlistDes = "Specially made for "+ username +" on "+timestampString + " ❤️";
                                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                                     Date time = dateFormat.parse(timestampString);
+
                                     Playlist playlist = new Playlist(playListID);
                                     playlist.setName(name);
                                     playlist.setTimestamp(time);
                                     playlist.setImageResId(R.drawable.default_playlist_image);
                                     playlist.setSpotifyPlaylistId(spotifyPlaylistId);
-                                    playlist.setDescription(playlist_description);
+                                    playlist.setDescription(playlistDes);
                                     playlists.add(playlist);
                                     handler.post(new Runnable() {
                                         @Override
