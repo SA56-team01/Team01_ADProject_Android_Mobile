@@ -5,6 +5,10 @@
     <string name="feedback">Feedback</string>
     <string name="home">Home</string>
     <string name="gmap_key">AIzaSyDOEEx41PoSuZ7MGUgi05of-s8ho_OB5QI</string>
-    <string name="BACKEND_URL">http://10.249.248.198:8080/api/</string>
-    <string name="ML_URL">http://10.249.248.198:5001/</string>
+<!--    <string name="BACKEND_URL">http://10.249.248.198:8080/api/</string>-->
+<!--    <string name="ML_URL">http://10.249.248.198:5001/</string>-->
+
+
+    <string name="BACKEND_URL">http://javaspotify-env.eba-p6yp23ta.ap-southeast-1.elasticbeanstalk.com/api/</string>
+    <string name="ML_URL">http://54.169.96.170:5000/</string>
 </resources>

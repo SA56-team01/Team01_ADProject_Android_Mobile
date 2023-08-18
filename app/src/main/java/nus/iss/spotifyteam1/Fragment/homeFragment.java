@@ -14,6 +14,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -102,6 +104,7 @@ public class homeFragment extends Fragment implements View.OnClickListener{
     JSONObject MLResponse;
 
     private Handler handler = new Handler();
+    private Handler fragmentHandler = new Handler();
 
     public homeFragment() {
         // Required empty public constructor
@@ -246,7 +249,7 @@ public class homeFragment extends Fragment implements View.OnClickListener{
             HttpURLConnection connection = null;
             BufferedReader reader = null;
             try {
-                URL url = new URL(getString(R.string.ML_URL)+"predictTrackAttributes?userId=1&latitude="+lat+"&longitude="+longi+"&time="+dataString);
+                URL url = new URL(getString(R.string.ML_URL)+"predictTrackAttributes?userId="+userid+"&latitude="+lat+"&longitude="+longi+"&timestamp="+dataString);
 //                URL url = new URL("http://10.249.248.198:5001/predictTrackAttributes?userId=1&latitude=1.03&longitude=103.1&time=2023-08-15%2000:00:00");
                 connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("POST");
@@ -349,6 +352,7 @@ public class homeFragment extends Fragment implements View.OnClickListener{
                     HttpURLConnection connection = null;
                     BufferedReader reader = null;
                     try {
+                        playlists.clear();
                         URL url = new URL(getString(R.string.BACKEND_URL) + "playlists/user/"+userid);
                         connection = (HttpURLConnection) url.openConnection();
                         connection.setRequestMethod("GET");
@@ -495,9 +499,9 @@ public class homeFragment extends Fragment implements View.OnClickListener{
                 int responseCode = connection.getResponseCode();
                 if (responseCode == HttpURLConnection.HTTP_OK) {
 
-                    Intent intent = new Intent(requireActivity(),HomepageActivity.class);
-                    startActivity(intent);
-                    getActivity().finish();
+                    if(loadPlayList ==null){
+                        loadPlayList = getAllList();
+                    }
 
 
                 }
