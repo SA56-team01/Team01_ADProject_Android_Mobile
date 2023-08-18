@@ -19,6 +19,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 
 import nus.iss.spotifyteam1.HomepageActivity;
@@ -492,8 +494,11 @@ public class homeFragment extends Fragment implements View.OnClickListener{
                 }
                 int responseCode = connection.getResponseCode();
                 if (responseCode == HttpURLConnection.HTTP_OK) {
+
                     Intent intent = new Intent(requireActivity(),HomepageActivity.class);
                     startActivity(intent);
+                    getActivity().finish();
+
 
                 }
 

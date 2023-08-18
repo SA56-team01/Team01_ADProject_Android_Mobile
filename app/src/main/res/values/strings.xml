@@ -5,6 +5,6 @@
     <string name="feedback">Feedback</string>
     <string name="home">Home</string>
     <string name="gmap_key">AIzaSyDOEEx41PoSuZ7MGUgi05of-s8ho_OB5QI</string>
-    <string name="BACKEND_URL">http://192.168.0.11:8080/api/</string>
-    <string name="ML_URL">http://192.168.0.11:5001/</string>
+    <string name="BACKEND_URL">http://10.249.248.198:8080/api/</string>
+    <string name="ML_URL">http://10.249.248.198:5001/</string>
 </resources>

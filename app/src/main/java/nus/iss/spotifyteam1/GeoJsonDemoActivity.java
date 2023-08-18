@@ -99,7 +99,6 @@ public class GeoJsonDemoActivity extends AppCompatActivity implements OnMapReady
                 Intent intent = new Intent(GeoJsonDemoActivity.this,HomepageActivity.class);
                 startActivity(intent);
                 finish();
-
             }
         });
 
