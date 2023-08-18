@@ -1,5 +1,6 @@
 package nus.iss.spotifyteam1.Fragment;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -66,6 +67,8 @@ public class homeFragment extends Fragment implements View.OnClickListener{
     private static final String ARG_PARAM2 = "param2";
     String userId;
     private ListView listView;
+
+    private AlertDialog progressDialog;
 
     Thread loadPlayList;
 
@@ -167,8 +170,11 @@ public class homeFragment extends Fragment implements View.OnClickListener{
                 intent.putExtra("timestamp", clickedPlaylist.getTimestamp().toString());
                 intent.putExtra("spotifyPlaylistId",clickedPlaylist.getSpotifyPlaylistId());
 
+
+
                 startActivity(intent);
-                getActivity().finish();
+
+                //getActivity().finish();
             }
         });
 
@@ -200,6 +206,13 @@ public class homeFragment extends Fragment implements View.OnClickListener{
                 lat = pref.getFloat("Latitude",0);
                 longi = pref.getFloat("Longitude",0);
             }
+            //Loading window
+            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+            builder.setMessage("Generating...");
+            builder.setCancelable(false); //
+            progressDialog = builder.create();
+            progressDialog.show();
+
             bkgdThread = generatePlaylist();
             bkgdThread.start();
         }
@@ -392,6 +405,7 @@ public class homeFragment extends Fragment implements View.OnClickListener{
                                                 listView = view.findViewById(R.id.playlistListView);
                                                 PlaylistAdapter adapter = new PlaylistAdapter(getContext(),playlists);
                                                 listView.setAdapter(adapter);
+                                                adapter.notifyDataSetChanged();
 
                                             } catch (Exception e) {
                                                 e.printStackTrace();
@@ -498,12 +512,18 @@ public class homeFragment extends Fragment implements View.OnClickListener{
                 }
                 int responseCode = connection.getResponseCode();
                 if (responseCode == HttpURLConnection.HTTP_OK) {
-
+//                    playlists.clear();
                     if(loadPlayList ==null){
                         loadPlayList = getAllList();
                     }
+                    loadPlayList.start();
 
+                    progressDialog.dismiss(); // close loading window
 
+                    Toast.makeText(requireContext(), "Generate complete", Toast.LENGTH_SHORT).show();
+
+//                    PlaylistAdapter adapter = new PlaylistAdapter(getContext(),playlists);
+//                    adapter.notifyDataSetChanged();
                 }
 
             } catch (IOException e) {

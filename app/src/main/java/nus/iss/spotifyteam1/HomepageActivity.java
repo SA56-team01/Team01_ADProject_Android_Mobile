@@ -2,6 +2,7 @@ package nus.iss.spotifyteam1;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -198,6 +199,7 @@ public class HomepageActivity extends AppCompatActivity implements View.OnClickL
 
         }
     };
+
 
 
     public Thread saveLocation(){
