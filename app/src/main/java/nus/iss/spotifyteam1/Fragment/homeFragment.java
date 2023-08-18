@@ -126,9 +126,7 @@ public class homeFragment extends Fragment implements View.OnClickListener{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date date = new Date();
-        dataString = formatter.format(date);
+
 
         loadPlayList = getAllList();
         loadPlayList.start();
@@ -212,6 +210,9 @@ public class homeFragment extends Fragment implements View.OnClickListener{
             builder.setCancelable(false); //
             progressDialog = builder.create();
             progressDialog.show();
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date date = new Date();
+            dataString = formatter.format(date);
 
             bkgdThread = generatePlaylist();
             bkgdThread.start();
