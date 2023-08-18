@@ -186,12 +186,15 @@ public class HomepageActivity extends AppCompatActivity implements View.OnClickL
             editor.commit();
 
             bkgdThread = saveLocation();
+            SharedPreferences prefTrack = getSharedPreferences("previousTrackId", MODE_PRIVATE);
+
             if(trackId!=null){
                 String[] track = trackId.split(":",3);
                 if(track.length>2){
                     trackId = track[2];
                 }
-                if(trackId!=previousTrackId){
+                previousTrackId = prefTrack.getString("previousTrackId","");
+                if(!trackId.equals(previousTrackId)){
                     bkgdThread.start();
 
                 }
@@ -219,7 +222,11 @@ public class HomepageActivity extends AppCompatActivity implements View.OnClickL
                         trackId = track[2];
 
                     }
-                    previousTrackId = trackId;
+
+                    SharedPreferences preftrack = getSharedPreferences("previousTrackId", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = preftrack.edit();
+                    editor.putString("previousTrackId",trackId);
+                    editor.commit();
                     jsonInput.put("userid", user.getId());
                     jsonInput.put("spotifyTrackId", trackId);
                     jsonInput.put("latitude", latitude);
@@ -268,6 +275,12 @@ public class HomepageActivity extends AppCompatActivity implements View.OnClickL
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(bcr);
+            super.onDestroy();
+            SharedPreferences sharedPreferences = getSharedPreferences("manual_location", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean("manual",false);
+            editor.commit();
+
     }
 
 

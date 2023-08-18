@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
+import com.google.firebase.crashlytics.buildtools.api.net.Constants;
 import com.google.gson.Gson;
 import com.spotify.sdk.android.auth.AuthorizationClient;
 import com.spotify.sdk.android.auth.AuthorizationRequest;
@@ -27,8 +29,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private static final int REQUEST_CODE = 1337;
 
     Thread bkgdThread;
+    Thread checkUserThread;
     String TOKEN;
     String[] internet = {Manifest.permission.INTERNET};
+    User user;
     private static final String REDIRECT_URI = "spotify-sdk://auth";
     private static final String CLIENT_ID = "318dffba43554089bf21083a6017c716";
     private static final String BASE_URL = "https://api.spotify.com/";
@@ -145,9 +149,44 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         });
 }
 
+    public Thread checkUser() {
+        return new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+
+                    HttpURLConnection connection = null;
+                    BufferedReader reader = null;
+                    try {
+                        URL url = new URL(getString(R.string.BACKEND_URL) + "user/save?spotify_user_id="+user.getId()+"&user_email="+user.getEmail());
+                        connection = (HttpURLConnection) url.openConnection();
+                        connection.setRequestMethod("POST");
+                        connection.setRequestProperty("Content-Type", "application/json"); // Set content type if needed
+                        int responseCode = connection.getResponseCode();
+                        if (responseCode == HttpURLConnection.HTTP_OK) {
+
+                        }
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+
+                    } finally {
+                        if (connection != null) {
+                            connection.disconnect();
+                        }
+                    };
+                    checkUserThread = null;
+                }catch (Exception e){
+                    checkUserThread= null;
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
     private void handleResponseData(String responseData) {
         Gson gson = new Gson();
-        User user = gson.fromJson(responseData, User.class);
+        user = gson.fromJson(responseData, User.class);
         SharedPreferences pref = getSharedPreferences("user_obj", MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
         editor.putString("user_id",user.getId());
@@ -158,6 +197,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         user.getId();
         user.getEmail();
         user.getId();
+
+        checkUserThread = checkUser();
+        checkUserThread.start();
     }
 
 }

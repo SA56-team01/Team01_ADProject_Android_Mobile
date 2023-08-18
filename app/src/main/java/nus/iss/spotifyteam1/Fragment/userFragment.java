@@ -52,6 +52,11 @@ public class userFragment extends Fragment implements View.OnClickListener{
     public void onClick(View view) {
         int id = view.getId();
         if (id == R.id.logout) {
+            SharedPreferences sharedPreferences = getActivity().getSharedPreferences("manual_location", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean("manual",false);
+            editor.commit();
+
             Intent toLoginActivity = new Intent(getContext(), LoginActivity.class);
             startActivity(toLoginActivity);
             getActivity().finish();
