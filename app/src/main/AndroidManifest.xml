@@ -23,7 +23,7 @@
         android:usesCleartextTraffic="true"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@drawable/logo"
-        android:label="SpotifyStalker"
+        android:label="Spotisan"
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.SpotifyTeam1"
