@@ -399,24 +399,24 @@ public class homeFragment extends Fragment implements View.OnClickListener{
                                     playlist.setSpotifyPlaylistId(spotifyPlaylistId);
                                     playlist.setDescription(playlistDes);
                                     playlists.add(playlist);
-                                    handler.post(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            try {
-                                                // Update your UI components here
-                                                // For example, update a TextView, RecyclerView, etc.
-                                                listView = view.findViewById(R.id.playlistListView);
-                                                PlaylistAdapter adapter = new PlaylistAdapter(getContext(),playlists);
-                                                listView.setAdapter(adapter);
-                                                adapter.notifyDataSetChanged();
-
-                                            } catch (Exception e) {
-                                                e.printStackTrace();
-                                            }
-                                        }
-                                    });
 
                                 }
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        try {
+                                            // Update your UI components here
+                                            // For example, update a TextView, RecyclerView, etc.
+                                            listView = view.findViewById(R.id.playlistListView);
+                                            PlaylistAdapter adapter = new PlaylistAdapter(getContext(),playlists);
+                                            listView.setAdapter(adapter);
+                                            adapter.notifyDataSetChanged();
+
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                });
 
                             };
                         }
@@ -492,8 +492,8 @@ public class homeFragment extends Fragment implements View.OnClickListener{
                 jsonInput.put("playlistName", playlistnameT);
                 jsonInput.put("spotifyPlaylistId", playListId);
                 jsonInput.put("timestamp", dataString);
-                jsonInput.put("longitude", lat);
-                jsonInput.put("latitude", longi);
+                jsonInput.put("longitude", longi);
+                jsonInput.put("latitude", lat);
                 jsonInput.put("targetAcousticness",MLResponse.getString("target_acousticness"));
                 jsonInput.put("targetDanceability",MLResponse.getString("target_danceability"));
                 jsonInput.put("targetEnergy",MLResponse.getString("target_energy"));

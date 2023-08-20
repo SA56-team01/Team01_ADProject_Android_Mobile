@@ -264,7 +264,7 @@ public class GeoJsonDemoActivity extends AppCompatActivity implements OnMapReady
                                         @Override
                                         public void run() {
                                             map.addMarker(new MarkerOptions()
-                                                    .position(new LatLng(longi,latitude))
+                                                    .position(new LatLng(latitude,longi))
                                                     .title(name + time +spotifyPlaylistId)
                                                     .draggable(true));
                                         }

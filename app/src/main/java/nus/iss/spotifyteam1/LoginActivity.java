@@ -34,6 +34,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     String[] internet = {Manifest.permission.INTERNET};
     User user;
     private static final String REDIRECT_URI = "spotify-sdk://auth";
+
+    // replace your CLIENT_ID here
     private static final String CLIENT_ID = "318dffba43554089bf21083a6017c716";
     private static final String BASE_URL = "https://api.spotify.com/";
 
